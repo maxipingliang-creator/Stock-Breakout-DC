@@ -1,0 +1,48 @@
+# Main platform configuration.
+# `config_version` is stamped onto every signal/backtest for reproducibility.
+# Bump it whenever a change here could alter results.
+config_version: "2024.05.0"
+
+data:
+  default_provider: synthetic       # synthetic | yfinance | alpaca | stooq
+  cache_dir: data/cache
+  interval: "1d"
+  # How much history to keep warm in the cache.
+  history_days: 800
+
+database:
+  # SQLite for dev; set a postgresql:// URL via SBS_DB_URL for production.
+  path: data/sbs.sqlite
+
+portfolio:
+  starting_equity: 100000.0
+  # Default portfolio-level risk constraints (strategies may tighten these).
+  max_positions: 10
+  max_portfolio_exposure: 1.0       # 1.0 = 100% of equity
+  max_sector_exposure: 0.30
+  default_risk_per_trade: 0.01      # 1% of equity at risk per trade
+
+backtest:
+  commission_per_share: 0.005
+  slippage_bps: 5                   # basis points applied to fills
+  fill_model: next_open             # enter on the bar AFTER the signal
+
+walkforward:
+  train_days: 504                   # ~2y
+  validation_days: 126              # ~6m
+  test_days: 126                    # ~6m (out-of-sample)
+  step_days: 126                    # roll forward by one test window
+
+tracking:
+  horizons_days: [1, 5, 10, 20, 60, 90]
+
+regime:
+  benchmark: "SPY"
+  trend_sma: 200
+  vol_lookback: 20
+  vol_high_pct: 0.75                # >75th percentile realized vol => High Vol
+  vol_low_pct: 0.25
+
+reporting:
+  output_dir: public/reports
+  formats: [csv, json, html]

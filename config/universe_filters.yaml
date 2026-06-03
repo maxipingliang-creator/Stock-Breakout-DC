@@ -1,0 +1,33 @@
+# Stock-universe inclusion / exclusion criteria.
+# Versioned independently so universe snapshots are reproducible.
+# 2026.06.0: expanded delisted names (4 -> 23) for survivorship-bias-free research.
+universe_version: "2026.06.0"
+
+include:
+  min_market_cap: 3_000_000_000        # >= $3B
+  min_avg_volume: 500_000              # >= 500k shares (avg daily)
+  min_avg_dollar_volume: 20_000_000    # >= $20M (avg daily $ volume)
+  avg_window_days: 50                  # window for the volume/$-volume averages
+  exchanges:
+    - NYSE
+    - NASDAQ
+    - AMEX
+
+# Security types/structures to exclude from the tradable universe.
+exclude_security_types:
+  - ETF
+  - MUTUAL_FUND
+  - CLOSED_END_FUND
+  - WARRANT
+  - PREFERRED
+  - OTC
+  - UNIT
+  - RIGHT
+
+# Survivorship-bias-free reconstruction settings.
+survivorship:
+  # When building an as-of universe, a security is eligible only if it was
+  # listed on/before the as-of date and not yet delisted on that date.
+  enforce_as_of: true
+  # Refuse to build a *historical* universe from the current symbol list only.
+  forbid_present_list_for_past: true

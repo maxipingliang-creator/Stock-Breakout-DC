@@ -2,15 +2,21 @@
 # .github/workflows/data-collect.yml
 #
 # It runs the HEAVY data collection on the public repo's *unlimited* Actions
-# minutes, then commits the cached prices + fundamentals back here. It does NOT
-# run any strategy/scanner code — the private engine is checked out only to use
-# its data layer, and only data/ is committed (strategy code never lands here).
+# minutes, then commits the cached prices + fundamentals back here. It runs NO
+# strategy/scanner code: the public repo vendors only the data layer
+# (sbs/{config,data,db} + sbs/collect.py) and runs the strategy-free
+# `python -m sbs.collect` entrypoint, so the proprietary engine never lands on
+# the public runner.
+#
+# TOKEN-FREE: because the data layer is vendored here, this workflow checks out
+# only THIS public repo and pushes the refreshed cache back with the built-in
+# GITHUB_TOKEN (granted by `permissions: contents: write`). No PAT into the
+# private engine repo is needed. See ../docs/DEPLOYMENT.md.
 #
 # Required secrets on Stock-Breakout-DC (Settings → Secrets → Actions):
-#   PRIVATE_REPO_TOKEN   - a fine-grained PAT with *read* access to the private
-#                          repo (ipingliang-creator/stock-breakout-bot)
 #   ALPACA_API_KEY, ALPACA_SECRET_KEY, ALPACA_BASE_URL
 #   SBS_SEC_USER_AGENT   - your contact email (SEC EDGAR requires it)
+# (No PRIVATE_REPO_TOKEN — that was only ever needed to read the private engine.)
 name: Data Collection
 
 on:
@@ -29,7 +35,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write               # commit refreshed data back to this repo
+  contents: write               # push the refreshed cache back to THIS public repo
 
 jobs:
   collect:
@@ -42,36 +48,27 @@ jobs:
       SBS_SEC_USER_AGENT: ${{ secrets.SBS_SEC_USER_AGENT }}
       SBS_MIN_DOLLAR_VOLUME: "1000000"     # relaxed for Alpaca IEX volume
     steps:
-      - name: Check out the data repo (this public repo)
+      - name: Check out THIS public data repo (carries the vendored data layer + cache)
         uses: actions/checkout@v4
-
-      - name: Check out the engine (private) — for the data layer only
-        uses: actions/checkout@v4
-        with:
-          repository: ipingliang-creator/stock-breakout-bot
-          token: ${{ secrets.PRIVATE_REPO_TOKEN }}
-          path: _engine
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
 
-      - run: python -m pip install -r _engine/requirements.txt
+      - run: python -m pip install -r requirements.txt
 
-      - name: Collect prices + fundamentals (no strategy logic runs)
-        working-directory: _engine
-        run: |
-          # Reuse any cache already published in the data repo (incremental).
-          mkdir -p data/cache && cp -r ../data/cache/. data/cache/ 2>/dev/null || true
-          python -m sbs.cli --provider "$PROVIDER" update-data
+      # The committed data/cache/ is already in the working tree, so collection
+      # extends it incrementally in place (only the missing tail is fetched).
+      - name: Collect prices + fundamentals (data layer only; no strategy code here)
+        run: python -m sbs.collect --provider "$PROVIDER"
 
-      - name: Publish the refreshed data back to this repo
+      - name: Commit the refreshed cache (push to self via GITHUB_TOKEN)
         run: |
-          rm -rf data/cache && mkdir -p data/cache
-          cp -r _engine/data/cache/. data/cache/
           git config user.name "data-bot"
           git config user.email "data-bot@users.noreply.github.com"
-          git add data/cache
-          git commit -m "data: refresh $(date -u +%F)" || echo "no changes to commit"
+          # -f: the public repo intentionally commits data/cache. This engine's
+          # .gitignore ignores it, so force-add in case that rule was vendored.
+          git add -f data/cache
+          git commit -m "data: refresh $(date -u +%F)" || { echo "no changes to commit"; exit 0; }
           git push

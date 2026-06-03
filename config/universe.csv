@@ -1,0 +1,137 @@
+symbol,name,exchange,security_type,sector,market_cap,listing_date,delisting_date,status
+# Liquid US large/mid-cap universe: ~103 active + 23 delisted (2018-2026) names.
+# market_cap is approximate (the liquidity filter governs in practice);
+# listing_date is set so historical backtests stay survivorship-honest, and
+# delisted/acquired/merged/bankrupt names are KEPT (with delisting_date) so
+# backtests see the losers, not just the survivors. Coverage is curated/partial,
+# not comprehensive — for a full survivorship-free universe use a vendor (see
+# docs/TODO.md). Delisting dates are approximate to the month of the event.
+AAPL,Apple Inc.,NASDAQ,COMMON,Technology,3400000000000,1980-12-12,,active
+MSFT,Microsoft Corp.,NASDAQ,COMMON,Technology,3100000000000,1986-03-13,,active
+NVDA,NVIDIA Corp.,NASDAQ,COMMON,Technology,3000000000000,1999-01-22,,active
+AVGO,Broadcom Inc.,NASDAQ,COMMON,Technology,800000000000,2009-08-06,,active
+ORCL,Oracle Corp.,NYSE,COMMON,Technology,400000000000,1986-03-12,,active
+CRM,Salesforce Inc.,NYSE,COMMON,Technology,260000000000,2004-06-23,,active
+ADBE,Adobe Inc.,NASDAQ,COMMON,Technology,220000000000,1986-08-20,,active
+AMD,Advanced Micro Devices,NASDAQ,COMMON,Technology,250000000000,1972-09-27,,active
+CSCO,Cisco Systems,NASDAQ,COMMON,Technology,240000000000,1990-02-16,,active
+QCOM,Qualcomm Inc.,NASDAQ,COMMON,Technology,180000000000,1991-12-13,,active
+TXN,Texas Instruments,NASDAQ,COMMON,Technology,170000000000,1972-01-01,,active
+IBM,IBM Corp.,NYSE,COMMON,Technology,210000000000,1962-01-02,,active
+NOW,ServiceNow Inc.,NYSE,COMMON,Technology,180000000000,2012-06-29,,active
+INTU,Intuit Inc.,NASDAQ,COMMON,Technology,180000000000,1993-03-12,,active
+AMAT,Applied Materials,NASDAQ,COMMON,Technology,150000000000,1972-10-01,,active
+MU,Micron Technology,NASDAQ,COMMON,Technology,120000000000,1984-06-01,,active
+LRCX,Lam Research,NASDAQ,COMMON,Technology,110000000000,1984-05-01,,active
+ADI,Analog Devices,NASDAQ,COMMON,Technology,110000000000,1979-01-01,,active
+KLAC,KLA Corp.,NASDAQ,COMMON,Technology,100000000000,1980-10-01,,active
+PANW,Palo Alto Networks,NASDAQ,COMMON,Technology,120000000000,2012-07-20,,active
+SNPS,Synopsys Inc.,NASDAQ,COMMON,Technology,80000000000,1992-02-01,,active
+CDNS,Cadence Design,NASDAQ,COMMON,Technology,80000000000,1987-06-01,,active
+INTC,Intel Corp.,NASDAQ,COMMON,Technology,90000000000,1971-10-13,,active
+CRWD,CrowdStrike Holdings,NASDAQ,COMMON,Technology,80000000000,2019-06-12,,active
+PLTR,Palantir Technologies,NASDAQ,COMMON,Technology,90000000000,2020-09-30,,active
+SNOW,Snowflake Inc.,NYSE,COMMON,Technology,60000000000,2020-09-16,,active
+NET,Cloudflare Inc.,NYSE,COMMON,Technology,40000000000,2019-09-13,,active
+DDOG,Datadog Inc.,NASDAQ,COMMON,Technology,45000000000,2019-09-19,,active
+GOOGL,Alphabet Inc.,NASDAQ,COMMON,Communication Services,2000000000000,2004-08-19,,active
+META,Meta Platforms,NASDAQ,COMMON,Communication Services,1200000000000,2012-05-18,,active
+NFLX,Netflix Inc.,NASDAQ,COMMON,Communication Services,300000000000,2002-05-23,,active
+DIS,Walt Disney Co.,NYSE,COMMON,Communication Services,200000000000,1957-11-12,,active
+CMCSA,Comcast Corp.,NASDAQ,COMMON,Communication Services,150000000000,1972-06-29,,active
+TMUS,T-Mobile US,NASDAQ,COMMON,Communication Services,250000000000,2007-04-19,,active
+VZ,Verizon Communications,NYSE,COMMON,Communication Services,180000000000,1983-11-21,,active
+T,AT&T Inc.,NYSE,COMMON,Communication Services,160000000000,1983-11-21,,active
+AMZN,Amazon.com Inc.,NASDAQ,COMMON,Consumer Discretionary,2000000000000,1997-05-15,,active
+TSLA,Tesla Inc.,NASDAQ,COMMON,Consumer Discretionary,800000000000,2010-06-29,,active
+HD,Home Depot,NYSE,COMMON,Consumer Discretionary,380000000000,1981-09-22,,active
+MCD,McDonald's Corp.,NYSE,COMMON,Consumer Discretionary,220000000000,1965-04-21,,active
+NKE,Nike Inc.,NYSE,COMMON,Consumer Discretionary,110000000000,1980-12-02,,active
+LOW,Lowe's Companies,NYSE,COMMON,Consumer Discretionary,140000000000,1961-10-10,,active
+SBUX,Starbucks Corp.,NASDAQ,COMMON,Consumer Discretionary,100000000000,1992-06-26,,active
+BKNG,Booking Holdings,NASDAQ,COMMON,Consumer Discretionary,160000000000,1999-03-30,,active
+TJX,TJX Companies,NYSE,COMMON,Consumer Discretionary,130000000000,1987-01-01,,active
+ABNB,Airbnb Inc.,NASDAQ,COMMON,Consumer Discretionary,80000000000,2020-12-10,,active
+WMT,Walmart Inc.,NYSE,COMMON,Consumer Staples,600000000000,1972-08-25,,active
+PG,Procter & Gamble,NYSE,COMMON,Consumer Staples,380000000000,1950-01-01,,active
+KO,Coca-Cola Co.,NYSE,COMMON,Consumer Staples,280000000000,1950-01-01,,active
+PEP,PepsiCo Inc.,NASDAQ,COMMON,Consumer Staples,230000000000,1965-01-01,,active
+COST,Costco Wholesale,NASDAQ,COMMON,Consumer Staples,400000000000,1985-12-05,,active
+MDLZ,Mondelez International,NASDAQ,COMMON,Consumer Staples,90000000000,2001-06-13,,active
+CL,Colgate-Palmolive,NYSE,COMMON,Consumer Staples,75000000000,1950-01-01,,active
+UNH,UnitedHealth Group,NYSE,COMMON,Healthcare,500000000000,1984-10-17,,active
+JNJ,Johnson & Johnson,NYSE,COMMON,Healthcare,380000000000,1944-09-25,,active
+LLY,Eli Lilly & Co.,NYSE,COMMON,Healthcare,800000000000,1952-01-01,,active
+MRK,Merck & Co.,NYSE,COMMON,Healthcare,250000000000,1946-01-01,,active
+ABBV,AbbVie Inc.,NYSE,COMMON,Healthcare,330000000000,2013-01-02,,active
+PFE,Pfizer Inc.,NYSE,COMMON,Healthcare,150000000000,1972-01-01,,active
+TMO,Thermo Fisher Scientific,NYSE,COMMON,Healthcare,200000000000,1980-01-01,,active
+ABT,Abbott Laboratories,NYSE,COMMON,Healthcare,200000000000,1937-01-01,,active
+DHR,Danaher Corp.,NYSE,COMMON,Healthcare,170000000000,1978-01-01,,active
+BMY,Bristol-Myers Squibb,NYSE,COMMON,Healthcare,100000000000,1933-01-01,,active
+AMGN,Amgen Inc.,NASDAQ,COMMON,Healthcare,150000000000,1983-06-17,,active
+GILD,Gilead Sciences,NASDAQ,COMMON,Healthcare,110000000000,1992-01-22,,active
+ISRG,Intuitive Surgical,NASDAQ,COMMON,Healthcare,180000000000,2000-06-13,,active
+VRTX,Vertex Pharmaceuticals,NASDAQ,COMMON,Healthcare,120000000000,1991-07-24,,active
+JPM,JPMorgan Chase,NYSE,COMMON,Financials,650000000000,1980-03-17,,active
+BAC,Bank of America,NYSE,COMMON,Financials,300000000000,1973-01-01,,active
+WFC,Wells Fargo,NYSE,COMMON,Financials,240000000000,1972-01-01,,active
+GS,Goldman Sachs,NYSE,COMMON,Financials,160000000000,1999-05-04,,active
+MS,Morgan Stanley,NYSE,COMMON,Financials,180000000000,1986-03-21,,active
+C,Citigroup Inc.,NYSE,COMMON,Financials,130000000000,1977-01-01,,active
+BLK,BlackRock Inc.,NYSE,COMMON,Financials,150000000000,1999-10-01,,active
+SCHW,Charles Schwab,NYSE,COMMON,Financials,130000000000,1987-09-22,,active
+AXP,American Express,NYSE,COMMON,Financials,200000000000,1977-05-31,,active
+SPGI,S&P Global,NYSE,COMMON,Financials,150000000000,1982-01-01,,active
+V,Visa Inc.,NYSE,COMMON,Financials,550000000000,2008-03-19,,active
+MA,Mastercard Inc.,NYSE,COMMON,Financials,450000000000,2006-05-25,,active
+PYPL,PayPal Holdings,NASDAQ,COMMON,Financials,75000000000,2015-07-06,,active
+BA,Boeing Co.,NYSE,COMMON,Industrials,130000000000,1962-01-02,,active
+CAT,Caterpillar Inc.,NYSE,COMMON,Industrials,180000000000,1929-12-02,,active
+GE,GE Aerospace,NYSE,COMMON,Industrials,200000000000,1962-01-02,,active
+HON,Honeywell International,NASDAQ,COMMON,Industrials,140000000000,1985-01-01,,active
+UPS,United Parcel Service,NYSE,COMMON,Industrials,90000000000,1999-11-10,,active
+RTX,RTX Corp.,NYSE,COMMON,Industrials,180000000000,1934-01-01,,active
+LMT,Lockheed Martin,NYSE,COMMON,Industrials,110000000000,1977-01-01,,active
+DE,Deere & Co.,NYSE,COMMON,Industrials,130000000000,1972-01-01,,active
+UNP,Union Pacific,NYSE,COMMON,Industrials,140000000000,1969-01-01,,active
+XOM,Exxon Mobil,NYSE,COMMON,Energy,470000000000,1980-01-02,,active
+CVX,Chevron Corp.,NYSE,COMMON,Energy,280000000000,1972-01-01,,active
+COP,ConocoPhillips,NYSE,COMMON,Energy,120000000000,1982-01-01,,active
+SLB,Schlumberger,NYSE,COMMON,Energy,60000000000,1962-01-01,,active
+EOG,EOG Resources,NYSE,COMMON,Energy,70000000000,1989-10-01,,active
+LIN,Linde plc,NASDAQ,COMMON,Materials,220000000000,1992-01-01,,active
+SHW,Sherwin-Williams,NYSE,COMMON,Materials,90000000000,1964-01-01,,active
+FCX,Freeport-McMoRan,NYSE,COMMON,Materials,60000000000,1995-07-01,,active
+NEE,NextEra Energy,NYSE,COMMON,Utilities,150000000000,1972-01-01,,active
+DUK,Duke Energy,NYSE,COMMON,Utilities,90000000000,1961-01-01,,active
+SO,Southern Co.,NYSE,COMMON,Utilities,95000000000,1949-01-01,,active
+PLD,Prologis Inc.,NYSE,COMMON,Real Estate,110000000000,1997-11-21,,active
+AMT,American Tower,NYSE,COMMON,Real Estate,90000000000,1998-06-05,,active
+EQIX,Equinix Inc.,NASDAQ,COMMON,Real Estate,80000000000,2000-08-11,,active
+# --- Delisted / acquired / bankrupt (kept for survivorship-bias-free research) ---
+# Acquired / merged (large- & mid-cap, 2018-2026):
+TWTR,Twitter Inc.,NYSE,COMMON,Communication Services,41000000000,2013-11-07,2022-10-28,acquired
+ATVI,Activision Blizzard,NASDAQ,COMMON,Communication Services,69000000000,1986-06-09,2023-10-13,acquired
+VMW,VMware Inc.,NYSE,COMMON,Technology,61000000000,2007-08-14,2023-11-22,acquired
+XLNX,Xilinx Inc.,NASDAQ,COMMON,Technology,48000000000,1990-06-12,2022-02-14,acquired
+SGEN,Seagen Inc.,NASDAQ,COMMON,Health Care,43000000000,2001-03-08,2023-12-14,acquired
+ABMD,Abiomed Inc.,NASDAQ,COMMON,Health Care,17000000000,1987-07-22,2022-12-22,acquired
+CTXS,Citrix Systems,NASDAQ,COMMON,Technology,16000000000,1995-12-08,2022-09-30,acquired
+ZNGA,Zynga Inc.,NASDAQ,COMMON,Communication Services,12000000000,2011-12-16,2022-05-23,acquired
+NUAN,Nuance Communications,NASDAQ,COMMON,Technology,19000000000,1995-04-25,2022-03-04,acquired
+MXIM,Maxim Integrated,NASDAQ,COMMON,Technology,26000000000,1988-02-26,2021-08-26,acquired
+ALXN,Alexion Pharmaceuticals,NASDAQ,COMMON,Health Care,39000000000,1996-02-27,2021-07-21,acquired
+TIF,Tiffany & Co.,NYSE,COMMON,Consumer Discretionary,16000000000,1987-05-15,2021-01-07,acquired
+INFO,IHS Markit,NYSE,COMMON,Industrials,44000000000,2014-06-19,2022-02-28,acquired
+CERN,Cerner Corp.,NASDAQ,COMMON,Health Care,23000000000,1986-12-05,2022-06-08,acquired
+DISCA,Discovery Inc.,NASDAQ,COMMON,Communication Services,15000000000,2008-09-18,2022-04-08,merged
+PXD,Pioneer Natural Resources,NYSE,COMMON,Energy,56000000000,1997-08-07,2024-05-03,acquired
+SPLK,Splunk Inc.,NASDAQ,COMMON,Technology,28000000000,2012-04-19,2024-03-18,acquired
+ANSS,Ansys Inc.,NASDAQ,COMMON,Technology,30000000000,1996-06-20,2025-07-17,acquired
+# Bankrupt / failed / delisted (2018-2026):
+SIVB,SVB Financial Group,NASDAQ,COMMON,Financials,16000000000,1987-04-03,2023-03-10,delisted
+FRC,First Republic Bank,NYSE,COMMON,Financials,20000000000,2010-12-08,2023-05-01,delisted
+SBNY,Signature Bank,NASDAQ,COMMON,Financials,11000000000,2004-03-23,2023-03-12,delisted
+BBBY,Bed Bath & Beyond,NASDAQ,COMMON,Consumer Discretionary,3000000000,1992-06-05,2023-05-03,bankrupt
+WE,WeWork Inc.,NYSE,COMMON,Real Estate,9000000000,2021-10-21,2023-11-07,bankrupt

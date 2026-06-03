@@ -1,0 +1,14 @@
+# Core runtime dependencies (kept intentionally light to minimize
+# GitHub Actions install time and avoid heavy/native wheels).
+pandas>=2.0
+numpy>=1.24
+PyYAML>=6.0
+tzdata>=2024.1        # IANA tz database for zoneinfo (US/Eastern scan-journal stamps)
+
+# --- Optional data providers (install as needed) ---------------------------
+# These are imported lazily inside their provider modules, so the platform
+# runs fully offline with the synthetic provider if they are absent.
+#
+#   yfinance>=0.2.40        # Primary provider
+#   alpaca-py>=0.20         # Secondary provider
+#   pandas-datareader>=0.10 # Stooq / Alpha Vantage helpers

@@ -1,0 +1,67 @@
+# Copy into the PUBLIC data repo (Stock-Breakout-DC) at
+# .github/workflows/guard-no-strategy.yml  (vendor.sh does this automatically).
+#
+# Tripwire for the public data repo: DC's only job is to collect PUBLIC market
+# data. This fails the build if any proprietary engine code (strategies, scanner,
+# backtester, ranking, ...) or a committed credential ever lands here.
+name: Guard - data layer only
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: sbs/ must be the data-layer closure only
+        run: |
+          set -euo pipefail
+          fail=0
+          if [ -d sbs ]; then
+            for entry in $(ls -A sbs); do
+              case "$entry" in
+                __init__.py|collect.py|config.py|data|db) ;;
+                *) echo "::error file=sbs/$entry::unexpected; sbs/ must contain only __init__.py, collect.py, config.py, data/, db/"; fail=1 ;;
+              esac
+            done
+          fi
+          for mod in strategies scanner backtest ranking tracking paper regime indicators reporting risk cli; do
+            if [ -e "sbs/$mod" ] || [ -e "sbs/$mod.py" ]; then
+              echo "::error file=sbs/$mod::proprietary module must not exist in the public data repo"; fail=1
+            fi
+          done
+          exit "$fail"
+
+      - name: No imports of proprietary engine code
+        run: |
+          set -euo pipefail
+          # Anchored to real import statements so prose/docstrings that mention a
+          # module name don't trip the guard.
+          if grep -rEn "^[[:space:]]*(from|import)[[:space:]]+(sbs\.|\.{1,2})?(strategies|scanner|backtest|ranking|tracking|paper|regime|indicators|reporting|risk|cli)([[:space:].]|$)" --include='*.py' .; then
+            echo "::error::a file imports proprietary engine code -- strip it before publishing"
+            exit 1
+          fi
+          echo "ok: no proprietary imports"
+
+      - name: No committed credentials
+        run: |
+          set -euo pipefail
+          # Actions Secrets live in repo settings (encrypted), never in the tree.
+          # Flag a hardcoded provider key or a private key committed as a file.
+          if grep -rEn "(ALPACA_API_KEY|ALPACA_SECRET_KEY)[[:space:]]*[:=][[:space:]]*['\"]?[A-Za-z0-9/+]{16,}" \
+               --include='*.py' --include='*.yml' --include='*.yaml' --include='*.env' --include='*.cfg' --include='*.ini' .; then
+            echo "::error::looks like a hardcoded credential -- secrets belong in Actions Secrets, not the repo"
+            exit 1
+          fi
+          if grep -rEnI "BEGIN (RSA|OPENSSH|EC|DSA|PGP) PRIVATE KEY" .; then
+            echo "::error::a private key is committed"
+            exit 1
+          fi
+          echo "ok: no obvious committed credentials"
