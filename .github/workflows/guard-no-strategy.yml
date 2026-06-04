@@ -29,8 +29,8 @@ jobs:
           if [ -d sbs ]; then
             for entry in $(ls -A sbs); do
               case "$entry" in
-                __init__.py|collect.py|config.py|data|db) ;;
-                *) echo "::error file=sbs/$entry::unexpected; sbs/ must contain only __init__.py, collect.py, config.py, data/, db/"; fail=1 ;;
+                __init__.py|collect.py|config.py|serialize.py|data|db) ;;
+                *) echo "::error file=sbs/$entry::unexpected; sbs/ must contain only __init__.py, collect.py, config.py, serialize.py, data/, db/"; fail=1 ;;
               esac
             done
           fi
