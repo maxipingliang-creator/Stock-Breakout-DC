@@ -8,6 +8,7 @@ from typing import Any
 import pandas as pd
 
 from ..data.models import DataVersion, SecurityMeta
+from ..serialize import json_safe
 from .database import Database
 
 
@@ -165,21 +166,24 @@ class SignalRepository:
             INSERT INTO signals
                 (strategy,strategy_version,symbol,signal_date,direction,entry_price,
                  stop_price,target_price,score,trigger_reason,indicator_values,
-                 filter_values,regime,config_version,universe_version,data_version_id,created_at)
+                 filter_values,score_factors,regime,config_version,universe_version,
+                 data_version_id,created_at)
             VALUES (:strategy,:strategy_version,:symbol,:signal_date,:direction,:entry_price,
                     :stop_price,:target_price,:score,:trigger_reason,:indicator_values,
-                    :filter_values,:regime,:config_version,:universe_version,:data_version_id,:created_at)
+                    :filter_values,:score_factors,:regime,:config_version,:universe_version,
+                    :data_version_id,:created_at)
             ON CONFLICT(strategy,symbol,signal_date) DO UPDATE SET
                 score=excluded.score, entry_price=excluded.entry_price,
                 stop_price=excluded.stop_price, target_price=excluded.target_price,
                 trigger_reason=excluded.trigger_reason,
                 indicator_values=excluded.indicator_values,
-                filter_values=excluded.filter_values, regime=excluded.regime
+                filter_values=excluded.filter_values,
+                score_factors=excluded.score_factors, regime=excluded.regime
         """
         row = dict(sig)
         row.setdefault("direction", "long")
         row.setdefault("created_at", _now())
-        for jcol in ("indicator_values", "filter_values"):
+        for jcol in ("indicator_values", "filter_values", "score_factors"):
             if isinstance(row.get(jcol), (dict, list)):
                 row[jcol] = json.dumps(row[jcol])
         self.db.execute(sql, _named(sql, row))
@@ -231,6 +235,39 @@ class SignalRepository:
     def performance_rows(self) -> list[dict]:
         return self.db.query("SELECT * FROM signal_performance")
 
+    def latest_date(self) -> str | None:
+        """Most recent ``signal_date`` in the table (the latest scan)."""
+        row = self.db.query_one("SELECT MAX(signal_date) d FROM signals")
+        return row["d"] if row and row.get("d") else None
+
+    def forward_record(self, strategy: str, horizon: int = 20) -> dict | None:
+        """Realized forward record for a strategy's tracked signals: count, win%,
+        and avg R-multiple at ``horizon`` days. Falls back to the most mature
+        horizon that has data when ``horizon`` isn't realized yet (recent signals).
+        Returns None when nothing has been tracked for the strategy."""
+        sql = (
+            "SELECT COUNT(*) n, "
+            "AVG(CASE WHEN p.r_multiple > 0 THEN 1.0 ELSE 0.0 END) win, "
+            "AVG(p.r_multiple) avg_r "
+            "FROM signal_performance p JOIN signals s ON s.signal_id = p.signal_id "
+            "WHERE s.strategy = ? AND p.r_multiple IS NOT NULL AND p.horizon_days = ?"
+        )
+        row = self.db.query_one(sql, (strategy, horizon))
+        used = horizon
+        if not row or not row.get("n"):
+            mx = self.db.query_one(
+                "SELECT MAX(p.horizon_days) h FROM signal_performance p "
+                "JOIN signals s ON s.signal_id = p.signal_id "
+                "WHERE s.strategy = ? AND p.r_multiple IS NOT NULL", (strategy,))
+            if not mx or mx.get("h") is None:
+                return None
+            used = int(mx["h"])
+            row = self.db.query_one(sql, (strategy, used))
+        if not row or not row.get("n"):
+            return None
+        return {"n": int(row["n"]), "win_pct": round((row["win"] or 0.0) * 100, 0),
+                "avg_r": round(row["avg_r"] or 0.0, 2), "horizon": used}
+
 
 class BacktestRepository:
     def __init__(self, db: Database):
@@ -245,7 +282,7 @@ class BacktestRepository:
             (
                 meta["strategy"], meta.get("strategy_version"), meta.get("start_date"),
                 meta.get("end_date"), int(meta.get("walkforward", 0)),
-                json.dumps(meta.get("config", {})), json.dumps(meta.get("metrics", {})),
+                json.dumps(meta.get("config", {})), json.dumps(json_safe(meta.get("metrics", {}))),
                 meta.get("config_version"), meta.get("universe_version"), _now(),
             ),
         )
@@ -263,8 +300,20 @@ class BacktestRepository:
                     for t in trades
                 ],
             )
+        pts = meta.get("equity_points")
+        if pts:
+            self.db.execute(
+                "INSERT INTO backtest_equity (backtest_id, points_json) VALUES (?, ?)",
+                (bid, json.dumps(json_safe(pts))),
+            )
         self.db.commit()
         return bid
+
+    def equity_points(self, backtest_id: int) -> list:
+        row = self.db.query_one(
+            "SELECT points_json FROM backtest_equity WHERE backtest_id=?", (backtest_id,)
+        )
+        return json.loads(row["points_json"]) if row and row.get("points_json") else []
 
     def get_run(self, backtest_id: int) -> dict | None:
         return self.db.query_one("SELECT * FROM backtests WHERE backtest_id=?", (backtest_id,))
@@ -275,6 +324,18 @@ class BacktestRepository:
                 "SELECT * FROM backtests WHERE strategy=? ORDER BY created_at DESC", (strategy,)
             )
         return self.db.query("SELECT * FROM backtests ORDER BY created_at DESC")
+
+    def latest_walkforward(self, strategy: str) -> dict | None:
+        """Latest persisted walk-forward run for a strategy: out-of-sample
+        expectancy (R), CAGR, max drawdown, trade count. None if never persisted."""
+        row = self.db.query_one(
+            "SELECT metrics_json FROM backtests WHERE strategy=? AND walkforward=1 "
+            "ORDER BY created_at DESC LIMIT 1", (strategy,))
+        if not row or not row.get("metrics_json"):
+            return None
+        m = json.loads(row["metrics_json"])
+        return {"expectancy_r": m.get("expectancy_r"), "cagr": m.get("cagr"),
+                "max_drawdown": m.get("max_drawdown"), "trade_count": m.get("trade_count")}
 
 
 class RegimeRepository:

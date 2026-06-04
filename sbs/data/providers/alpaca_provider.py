@@ -100,6 +100,22 @@ class AlpacaProvider(DataProvider):
                 print(f"[alpaca] request failed: {exc!r} ({url})", file=sys.stderr)
             return None
 
+    # -- calendar -----------------------------------------------------------
+    def get_calendar(self, start: date, end: date) -> list[date]:
+        """Trading sessions in [start, end] from Alpaca's /v2/calendar. Returns []
+        on failure / missing creds, so callers fall back to a weekday heuristic."""
+        url = (f"{self.trading_host}/v2/calendar"
+               f"?start={start.isoformat()}&end={end.isoformat()}")
+        out: list[date] = []
+        for r in self._get_json(url) or []:
+            d = r.get("date")
+            if d:
+                try:
+                    out.append(date.fromisoformat(d))
+                except ValueError:
+                    pass
+        return out
+
     # -- prices -------------------------------------------------------------
     def get_history(
         self,

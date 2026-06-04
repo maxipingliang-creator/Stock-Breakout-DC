@@ -12,3 +12,8 @@ tzdata>=2024.1        # IANA tz database for zoneinfo (US/Eastern scan-journal s
 #   yfinance>=0.2.40        # Primary provider
 #   alpaca-py>=0.20         # Secondary provider
 #   pandas-datareader>=0.10 # Stooq / Alpha Vantage helpers
+#
+# --- Optional database backend ---------------------------------------------
+# SQLite (stdlib) is the default. For PostgreSQL, set SBS_DB_URL=postgresql://...
+#
+#   psycopg[binary]>=3.1    # PostgreSQL backend (sbs/db/database.py: PostgresDatabase)

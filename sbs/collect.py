@@ -23,8 +23,9 @@ import argparse
 import os
 from datetime import date, datetime
 
-from .config import load_config
+from .config import load_config, ny_today
 from .data.access import MarketData
+from .data.calendar import is_trading_day
 from .db.database import connect
 from .db.repositories import (
     DataVersionRepository,
@@ -34,8 +35,8 @@ from .db.repositories import (
 
 
 def _as_of(value: str | None) -> date:
-    """Resolve an ``--as-of`` value; blank/None means today (matches the CLI)."""
-    return datetime.strptime(value, "%Y-%m-%d").date() if value else date.today()
+    """Resolve an ``--as-of`` value; blank/None means the current NY trading date."""
+    return datetime.strptime(value, "%Y-%m-%d").date() if value else ny_today()
 
 
 def _default_db_path(cfg, provider_name: str) -> str:
@@ -83,6 +84,9 @@ def update_data(
             symbols.append(bench)
 
     end = _as_of(as_of)
+    if as_of is None and not is_trading_day(md.provider, end):
+        print(f"Market closed {end} (not a trading day) — skipping collection.")
+        return
     dv = md.cache.update_symbols(symbols, end=end, universe_version=cfg.universe_version)
     version_id = DataVersionRepository(conn).add(dv)
 

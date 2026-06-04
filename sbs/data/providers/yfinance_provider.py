@@ -11,6 +11,7 @@ survivorship-bias-free research that CSV must include delisted names + dates.
 """
 from __future__ import annotations
 
+import logging
 import os
 from datetime import date
 
@@ -20,6 +21,12 @@ from ...config import PROJECT_ROOT
 from ..base import DataProvider, register_provider, standardize_ohlcv
 from ..models import SecurityMeta
 from ..reference import load_securities_csv
+
+# yfinance's shared logger spams "$SYM: possibly delisted; no price data found"
+# for pre-IPO windows and delisted names — benign here (we handle empty frames).
+# Quiet it unless SBS_DEBUG is set.
+if not os.environ.get("SBS_DEBUG"):
+    logging.getLogger("yfinance").setLevel(logging.CRITICAL)
 
 
 def _pick(df: pd.DataFrame, names: list[str]) -> pd.Series | None:

@@ -24,8 +24,10 @@ portfolio:
 
 backtest:
   commission_per_share: 0.005
+  min_commission_per_trade: 0.0     # broker per-trade commission floor (0 = none)
   slippage_bps: 5                   # basis points applied to fills
   fill_model: next_open             # enter on the bar AFTER the signal
+  risk_free_rate: 0.0               # annualized; excess-return basis for Sharpe/Sortino
 
 walkforward:
   train_days: 504                   # ~2y

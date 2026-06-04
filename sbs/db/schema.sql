@@ -96,6 +96,7 @@ CREATE TABLE IF NOT EXISTS signals (
     trigger_reason    TEXT,
     indicator_values  TEXT,   -- JSON
     filter_values     TEXT,   -- JSON
+    score_factors     TEXT,   -- JSON: per-factor ranking breakdown (journal "drivers")
     regime            TEXT,
     config_version    TEXT,
     universe_version  TEXT,
@@ -145,6 +146,13 @@ CREATE TABLE IF NOT EXISTS backtests (
     config_version    TEXT,
     universe_version  TEXT,
     created_at        TEXT
+);
+
+-- Downsampled equity curve per backtest (for report charts). A separate table so
+-- it is added idempotently to existing DBs via CREATE TABLE IF NOT EXISTS.
+CREATE TABLE IF NOT EXISTS backtest_equity (
+    backtest_id  INTEGER PRIMARY KEY REFERENCES backtests(backtest_id),
+    points_json  TEXT
 );
 
 CREATE TABLE IF NOT EXISTS backtest_trades (

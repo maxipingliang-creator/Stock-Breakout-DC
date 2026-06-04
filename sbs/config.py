@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
+from datetime import date, datetime
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -28,6 +29,22 @@ def find_project_root(start: Path | None = None) -> Path:
             return parent
     # Fallback: package parent (sbs/..)
     return Path(__file__).resolve().parents[1]
+
+
+def ny_today() -> date:
+    """Today's date in US/Eastern (market time).
+
+    Anchors "today" to the trading day rather than the runner's UTC clock, which
+    rolls over at 8pm ET — so a job running between 8pm ET and midnight (UTC
+    already tomorrow) still resolves to the current market day. Both the collector
+    (`sbs.collect`) and the engine (`sbs.cli`) use this so they never disagree on
+    "today". Falls back to the local date if the tz database is unavailable.
+    """
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.now(ZoneInfo("America/New_York")).date()
+    except Exception:  # noqa: BLE001 - missing tz database -> local date
+        return date.today()
 
 
 PROJECT_ROOT = find_project_root()
