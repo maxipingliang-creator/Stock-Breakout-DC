@@ -20,8 +20,8 @@
 name: Data Collection
 
 on:
-  schedule:
-    - cron: "0 22 * * 1-5"      # weekday evenings (after the US close)
+  # Scheduling is external: cron-job.com (America/New_York) dispatches this via
+  # workflow_dispatch. No GH `schedule:` cron (UTC-only + unreliable).
   workflow_dispatch:
     inputs:
       provider:
