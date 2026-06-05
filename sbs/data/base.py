@@ -38,9 +38,17 @@ def _ensure_providers_imported() -> None:
 
 
 def get_provider(name: str | None = None, **kwargs) -> DataProvider:
-    """Instantiate a provider by name (defaults to the synthetic provider)."""
+    """Instantiate a provider by name (defaults to the synthetic provider).
+
+    A ``+``-chain like ``"alpaca+stooq"`` builds a :class:`FallbackProvider`: the
+    first provider that returns data for a symbol wins, so a primary that can't serve
+    delisted names (Alpaca) falls back to one that retains them (Stooq). The composite
+    reports the *primary's* name, so fallback-sourced prices cache alongside it."""
     _ensure_providers_imported()
     key = name or "synthetic"
+    if "+" in key:
+        parts = [p.strip() for p in key.split("+") if p.strip()]
+        return FallbackProvider([get_provider(p) for p in parts])
     if key not in _REGISTRY:
         raise KeyError(
             f"Unknown data provider {key!r}. Available: {sorted(_REGISTRY)}"
@@ -131,3 +139,77 @@ class DataProvider(ABC):
     def is_available(self) -> bool:
         """Whether this provider can currently serve data (network/creds)."""
         return True
+
+
+class FallbackProvider(DataProvider):
+    """Compose providers: the first to return data for a symbol wins.
+
+    Built from a ``+``-chain (``get_provider("alpaca+stooq")``). It lets a primary
+    that can't serve delisted names (Alpaca) fall back to one that retains delisted
+    history (Stooq), so a survivorship-free roster's removed names get priced.
+
+    It reports the **primary's** ``name``, so fallback-sourced prices cache into the
+    *same* directory as the primary's (``data/cache/<primary>/``) and a later
+    ``--provider <primary>`` scan/backtest reads both transparently.
+    """
+
+    def __init__(self, providers: list[DataProvider]):
+        if not providers:
+            raise ValueError("FallbackProvider needs at least one provider")
+        self._providers = providers
+        self.name = providers[0].name                              # cache under the primary
+        self.version = "+".join(f"{p.name}:{p.version}" for p in providers)
+
+    def get_history(self, symbol, start=None, end=None, interval="1d"):
+        result = standardize_ohlcv(None)
+        for p in self._providers:
+            try:
+                df = p.get_history(symbol, start, end, interval)
+            except Exception:  # noqa: BLE001 - a dead provider must not abort the chain
+                df = standardize_ohlcv(None)
+            if not df.empty:
+                return df
+            result = df
+        return result
+
+    def get_history_batch(self, symbols, start=None, end=None, interval="1d"):
+        out = {s: standardize_ohlcv(None) for s in symbols}
+        pending = list(symbols)
+        for p in self._providers:
+            if not pending:
+                break
+            got = p.get_history_batch(pending, start, end, interval)
+            still_pending = []
+            for s in pending:
+                df = got.get(s)
+                if df is not None and not df.empty:
+                    out[s] = df
+                else:
+                    still_pending.append(s)
+            pending = still_pending
+        return out
+
+    def list_securities(self) -> list[SecurityMeta]:
+        merged: dict[str, SecurityMeta] = {}
+        for p in self._providers:
+            for s in p.list_securities():
+                merged.setdefault(s.symbol, s)                     # earlier provider wins
+        return list(merged.values())
+
+    def get_fundamentals(self, symbol: str) -> pd.DataFrame:
+        for p in self._providers:
+            f = p.get_fundamentals(symbol)
+            if not f.empty:
+                return f
+        return super().get_fundamentals(symbol)
+
+    def get_calendar(self, start: date, end: date):
+        """Delegate to the first provider that exposes a trading calendar (e.g. Alpaca)."""
+        for p in self._providers:
+            fn = getattr(p, "get_calendar", None)
+            if fn is not None:
+                return fn(start, end)
+        return []
+
+    def is_available(self) -> bool:
+        return any(p.is_available() for p in self._providers)
