@@ -47,6 +47,17 @@ def ny_today() -> date:
         return date.today()
 
 
+def ny_now() -> datetime:
+    """Current timestamp in US/Eastern (market time) — the dated companion to
+    ``ny_today()``, used to stamp the account-state snapshots. Falls back to the
+    local time if the tz database is unavailable."""
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.now(ZoneInfo("America/New_York"))
+    except Exception:  # noqa: BLE001 - missing tz database -> local time
+        return datetime.now()
+
+
 PROJECT_ROOT = find_project_root()
 
 
