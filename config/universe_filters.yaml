@@ -1,7 +1,8 @@
 # Stock-universe inclusion / exclusion criteria.
 # Versioned independently so universe snapshots are reproducible.
 # 2026.06.0: expanded delisted names (4 -> 23) for survivorship-bias-free research.
-universe_version: "2026.06.0"
+# 2026.06.1: widened the live roster to the current S&P 500 (~103 -> ~505 active).
+universe_version: "2026.06.1"
 
 include:
   min_market_cap: 3_000_000_000        # >= $3B
