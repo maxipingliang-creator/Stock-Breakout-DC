@@ -27,6 +27,11 @@ backtest:
   min_commission_per_trade: 0.0     # broker per-trade commission floor (0 = none)
   slippage_bps: 5                   # basis points applied to fills
   fill_model: next_open             # enter on the bar AFTER the signal
+  gap_max_r: 0.0                    # gap guard (fill model, in R = entry−stop): skip an entry
+                                    #   whose next-open gaps more than this×R above the signal
+                                    #   entry — the chase the live buffered limit already refuses.
+                                    #   0 = off (current behaviour). Shared by the backtester AND
+                                    #   the live planner so paper/backtest fill consistently.
   risk_free_rate: 0.0               # annualized; excess-return basis for Sharpe/Sortino
 
 walkforward:
