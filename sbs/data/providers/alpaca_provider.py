@@ -21,6 +21,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -35,6 +36,26 @@ from ..reference import load_securities_csv
 
 DATA_HOST = "https://data.alpaca.markets"
 DEFAULT_TRADING_HOST = "https://paper-api.alpaca.markets"
+
+# A wide universe sweep (~500+ symbols) outruns Alpaca's rate limit; without backoff the
+# 429s are swallowed and every symbol past the throttle point silently keeps its old bar —
+# which staled the benchmark and skipped a whole scan. Retry 429 / transient errors with
+# exponential backoff (honouring Retry-After), so the sweep self-paces and completes.
+_MAX_RETRIES = 5
+
+
+def _retry_after_seconds(exc: urllib.error.HTTPError) -> float | None:
+    """Alpaca's ``Retry-After`` (seconds) on a 429, when present."""
+    try:
+        ra = exc.headers.get("Retry-After")
+        return float(ra) if ra else None
+    except (AttributeError, TypeError, ValueError):
+        return None
+
+
+def _backoff_seconds(attempt: int) -> float:
+    """Exponential backoff, capped: 1, 2, 4, 8, 16, 30, 30, …"""
+    return min(2.0 ** attempt, 30.0)
 
 
 def parse_bars(bars: list[dict]) -> pd.DataFrame:
@@ -91,14 +112,32 @@ class AlpacaProvider(DataProvider):
         return {"APCA-API-KEY-ID": self.api_key or "", "APCA-API-SECRET-KEY": self.secret or ""}
 
     def _get_json(self, url: str):
+        """GET + parse JSON, retrying rate limits (HTTP 429) and transient errors with
+        exponential backoff (honouring ``Retry-After``). Returns None only after exhausting
+        retries, or immediately on a hard 4xx (e.g. 404) — never on a swallowed 429, which
+        used to silently drop the tail of a large universe sweep."""
         req = urllib.request.Request(url, headers=self._headers())
-        try:
-            with urllib.request.urlopen(req, timeout=30) as resp:  # noqa: S310 - fixed alpaca hosts
-                return json.loads(resp.read().decode("utf-8"))
-        except (urllib.error.URLError, ValueError) as exc:
-            if os.environ.get("SBS_DEBUG"):
-                print(f"[alpaca] request failed: {exc!r} ({url})", file=sys.stderr)
-            return None
+        for attempt in range(_MAX_RETRIES + 1):
+            try:
+                with urllib.request.urlopen(req, timeout=30) as resp:  # noqa: S310 - fixed alpaca hosts
+                    return json.loads(resp.read().decode("utf-8"))
+            except urllib.error.HTTPError as exc:
+                transient = exc.code == 429 or 500 <= exc.code < 600
+                if transient and attempt < _MAX_RETRIES:
+                    wait = _retry_after_seconds(exc)
+                    time.sleep(wait if wait is not None else _backoff_seconds(attempt))
+                    continue
+                if os.environ.get("SBS_DEBUG"):
+                    print(f"[alpaca] HTTP {exc.code} after {attempt} retr(ies): {url}", file=sys.stderr)
+                return None
+            except (urllib.error.URLError, ValueError, TimeoutError) as exc:
+                if attempt < _MAX_RETRIES:
+                    time.sleep(_backoff_seconds(attempt))
+                    continue
+                if os.environ.get("SBS_DEBUG"):
+                    print(f"[alpaca] request failed: {exc!r} ({url})", file=sys.stderr)
+                return None
+        return None
 
     # -- calendar -----------------------------------------------------------
     def get_calendar(self, start: date, end: date) -> list[date]:
