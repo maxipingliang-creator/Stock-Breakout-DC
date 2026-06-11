@@ -70,6 +70,17 @@ def parse_bars(bars: list[dict]) -> pd.DataFrame:
     return standardize_ohlcv(df.set_index("date"))
 
 
+def parse_latest_trades(payload: dict) -> dict[str, float]:
+    """Alpaca multi-symbol ``/v2/stocks/trades/latest`` -> ``{symbol: last_price}``."""
+    out: dict[str, float] = {}
+    for sym, trade in (payload.get("trades") or {}).items():
+        try:
+            out[sym] = float(trade["p"])
+        except (KeyError, TypeError, ValueError):
+            continue
+    return out
+
+
 def parse_assets(assets: list[dict]) -> list[SecurityMeta]:
     """Alpaca ``/v2/assets`` -> SecurityMeta (no market cap/sector from Alpaca)."""
     out: list[SecurityMeta] = []
@@ -193,6 +204,17 @@ class AlpacaProvider(DataProvider):
             if not token:
                 break
         return parse_bars(bars)
+
+    # -- real-time (intraday entry confirmation) ----------------------------
+    def latest_prices(self, symbols: list[str]) -> dict[str, float]:
+        """Real-time last-trade price per symbol (IEX feed) in one call — for the
+        intraday hold-above check. Empty on missing creds/error; symbols with no
+        recent trade are simply absent (caller treats as 'unknown')."""
+        if not symbols or not self.is_available():
+            return {}
+        qs = urllib.parse.quote(",".join(symbols))
+        data = self._get_json(f"{DATA_HOST}/v2/stocks/trades/latest?symbols={qs}&feed={self.feed}")
+        return parse_latest_trades(data or {})
 
     # -- universe -----------------------------------------------------------
     def list_securities(self) -> list[SecurityMeta]:

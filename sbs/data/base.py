@@ -136,6 +136,12 @@ class DataProvider(ABC):
             index=pd.DatetimeIndex([], name="report_date"),
         )
 
+    def latest_prices(self, symbols: list[str]) -> dict[str, float]:
+        """Real-time last-trade price per symbol, for intraday entry confirmation.
+        Default empty — only live providers (Alpaca) implement it; callers treat a
+        missing price as 'unknown' (not gated)."""
+        return {}
+
     def is_available(self) -> bool:
         """Whether this provider can currently serve data (network/creds)."""
         return True

@@ -44,6 +44,14 @@ walkforward:
 tracking:
   horizons_days: [1, 5, 10, 20, 60, 90]
 
+execution:
+  # Intraday entry-timing confirmation (V2 phase 2b): off | shadow | enforce.
+  #   hold-above — at the ~9:35 trigger, confirm the real-time price is still above the
+  #   signal's breakout level before placing. shadow = log the decision only (gather forward
+  #   evidence); enforce = actually skip the faded names. Forward-validated, not backtestable.
+  #   $SBS_INTRADAY_CONFIRM overrides.
+  intraday_confirm: shadow
+
 regime:
   benchmark: "SPY"
   trend_sma: 200
