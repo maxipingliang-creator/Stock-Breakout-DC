@@ -384,14 +384,38 @@ class FundamentalsRepository:
         self.db.commit()
         return len(rows)
 
+    @classmethod
+    def _empty(cls) -> pd.DataFrame:
+        return pd.DataFrame(columns=cls._COLS, index=pd.DatetimeIndex([], name="report_date"))
+
     def get(self, symbol: str) -> pd.DataFrame:
         rows = self.db.query(
             "SELECT * FROM fundamentals WHERE symbol=? ORDER BY report_date", (symbol,))
         if not rows:
-            return pd.DataFrame(columns=self._COLS, index=pd.DatetimeIndex([], name="report_date"))
+            return self._empty()
         df = pd.DataFrame(rows).drop(columns=["symbol"])
         df["report_date"] = pd.to_datetime(df["report_date"])
         return df.set_index("report_date")
+
+    def get_many(self, symbols: list[str]) -> dict[str, pd.DataFrame]:
+        """Batch read: ``{symbol -> filing-date-indexed frame}`` in **one** query — the
+        scan/backtest hot path, vs N per-symbol round-trips. Symbols with no stored rows
+        are omitted (callers treat absence as 'no fundamentals')."""
+        syms = list(dict.fromkeys(symbols))           # dedupe, preserve order
+        if not syms:
+            return {}
+        placeholders = ",".join(["?"] * len(syms))
+        rows = self.db.query(
+            f"SELECT * FROM fundamentals WHERE symbol IN ({placeholders}) "
+            "ORDER BY symbol, report_date", tuple(syms))
+        if not rows:
+            return {}
+        df = pd.DataFrame(rows)
+        df["report_date"] = pd.to_datetime(df["report_date"])
+        out: dict[str, pd.DataFrame] = {}
+        for sym, g in df.groupby("symbol"):
+            out[str(sym)] = g.drop(columns=["symbol"]).set_index("report_date")[self._COLS]
+        return out
 
 
 def _named(sql: str, row: dict) -> dict:

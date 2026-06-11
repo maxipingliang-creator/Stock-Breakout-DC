@@ -20,10 +20,16 @@ class MarketData:
         provider: DataProvider | None = None,
         cache: DataCache | None = None,
         update: bool = False,
+        fundamentals_repo=None,
     ):
         self.provider = provider or get_provider("synthetic")
         self.cache = cache
         self.update = update
+        # When set (by the CLI Context), fundamentals are read DB-first — the committed,
+        # versioned table — for reproducibility + speed; the provider is only a fallback
+        # for names the DB doesn't yet cover. Duck-typed (``.get`` / ``.get_many``) to
+        # keep this data facade decoupled from the db layer.
+        self.fundamentals_repo = fundamentals_repo
 
     @classmethod
     def from_config(cls, cfg, provider_name: str | None = None, update: bool = False) -> MarketData:
@@ -53,5 +59,24 @@ class MarketData:
         return {s: self.history(s, start, end) for s in symbols}
 
     def fundamentals(self, symbol: str) -> pd.DataFrame:
-        """Point-in-time quarterly fundamentals (empty if the provider has none)."""
+        """Point-in-time quarterly fundamentals. DB-first (reproducible), falling back to
+        the provider when the DB has none (cold DB / ad-hoc run)."""
+        if self.fundamentals_repo is not None:
+            df = self.fundamentals_repo.get(symbol)
+            if not df.empty:
+                return df
         return self.provider.get_fundamentals(symbol)
+
+    def fundamentals_many(self, symbols: list[str]) -> dict[str, pd.DataFrame]:
+        """Batch fundamentals for a universe: **one** DB query, with a per-symbol provider
+        fallback only for names the DB doesn't cover. The scan/backtest hot path — avoids
+        re-parsing every company's XBRL on each run when the table is populated."""
+        out: dict[str, pd.DataFrame] = {}
+        if self.fundamentals_repo is not None:
+            out = self.fundamentals_repo.get_many(symbols)
+        missing = [s for s in symbols if s not in out or out[s].empty]
+        for s in missing:                              # cold DB / names not yet persisted
+            df = self.provider.get_fundamentals(s)
+            if not df.empty:
+                out[s] = df
+        return out
