@@ -70,6 +70,24 @@ def parse_bars(bars: list[dict]) -> pd.DataFrame:
     return standardize_ohlcv(df.set_index("date"))
 
 
+# Max symbols per multi-symbol bars request. Bounds the URL length; Alpaca paginates the
+# rest of the data within each chunk. A ~500-name sweep is then ~3 chunked requests (each
+# paginated) instead of ~500 single-symbol calls — far less rate-limit pressure.
+_BATCH_SYMBOLS = 200
+
+
+def _chunked(items: list[str], size: int):
+    for i in range(0, len(items), size):
+        yield items[i:i + size]
+
+
+def parse_multi_bars(payload: dict) -> dict[str, list]:
+    """Alpaca multi-symbol ``/v2/stocks/bars`` -> ``{symbol: [raw bar dicts]}`` for one page.
+    The response keys ``bars`` by symbol (unlike the single-symbol endpoint's flat array)."""
+    return {sym: (bars or []) for sym, bars in (payload.get("bars") or {}).items()}
+
+
+
 def parse_latest_trades(payload: dict) -> dict[str, float]:
     """Alpaca multi-symbol ``/v2/stocks/trades/latest`` -> ``{symbol: last_price}``."""
     out: dict[str, float] = {}
@@ -204,6 +222,48 @@ class AlpacaProvider(DataProvider):
             if not token:
                 break
         return parse_bars(bars)
+
+    def get_history_batch(self, symbols, start=None, end=None, interval="1d"):
+        """Bulk OHLCV via the multi-symbol bars endpoint — one (paginated) request per
+        ``_BATCH_SYMBOLS`` symbols instead of one per symbol. This is the lever that keeps a
+        wide universe sweep under Alpaca's rate limit: ~500 names become a handful of calls,
+        not 500. Returns a canonical frame per symbol (empty for names with no data)."""
+        if not symbols:
+            return {}
+        if not self.is_available():
+            raise RuntimeError(
+                "Alpaca provider needs ALPACA_API_KEY / ALPACA_SECRET_KEY set. "
+                "Use `--provider synthetic` for offline runs."
+            )
+        base = f"{DATA_HOST}/v2/stocks/bars"
+        params = {
+            "timeframe": "1Day",
+            "adjustment": self.adjustment,
+            "feed": self.feed,
+            "limit": 10000,
+            "start": str(start) if start else "2015-01-01",
+        }
+        if end is not None:
+            params["end"] = str(end)
+        out: dict[str, pd.DataFrame] = {s: standardize_ohlcv(None) for s in symbols}
+        for chunk in _chunked(list(symbols), _BATCH_SYMBOLS):
+            raw: dict[str, list] = {}
+            token: str | None = None
+            while True:                       # paginate this chunk (bars span pages by symbol)
+                page = dict(params, symbols=",".join(chunk))
+                if token:
+                    page["page_token"] = token
+                data = self._get_json(base + "?" + urllib.parse.urlencode(page))
+                if not data:
+                    break
+                for sym, bars in parse_multi_bars(data).items():
+                    raw.setdefault(sym, []).extend(bars)
+                token = data.get("next_page_token")
+                if not token:
+                    break
+            for sym, bars in raw.items():
+                out[sym] = parse_bars(bars)
+        return out
 
     # -- real-time (intraday entry confirmation) ----------------------------
     def latest_prices(self, symbols: list[str]) -> dict[str, float]:

@@ -49,18 +49,27 @@ class DataCache:
         df.to_csv(self._path(symbol), index_label="date")
 
     # -- incremental update -------------------------------------------------
-    def update_symbol(self, symbol: str, end: date | None = None) -> pd.DataFrame:
-        """Refresh one symbol, fetching only the missing tail. Returns full series."""
-        cached = self.load(symbol)
+    @staticmethod
+    def _last(df: pd.DataFrame) -> date | None:
+        """The last cached bar's date, or None for an empty/cold series."""
+        return None if df.empty else df.index.max().date()
+
+    @staticmethod
+    def _merge(cached: pd.DataFrame, fresh: pd.DataFrame | None) -> pd.DataFrame:
+        """Combine cached history with a freshly fetched tail (fresh wins on overlap)."""
         if cached.empty:
-            fresh = self.provider.get_history(symbol, None, end, self.interval)
-            merged = fresh
-        else:
-            last = cached.index.max().date()
-            # Re-fetch the last cached day too, in case it was provisional.
-            fresh = self.provider.get_history(symbol, last, end, self.interval)
-            merged = pd.concat([cached, fresh])
-            merged = merged[~merged.index.duplicated(keep="last")].sort_index()
+            return fresh if fresh is not None else standardize_ohlcv(None)
+        if fresh is None or fresh.empty:
+            return cached
+        merged = pd.concat([cached, fresh])
+        return merged[~merged.index.duplicated(keep="last")].sort_index()
+
+    def update_symbol(self, symbol: str, end: date | None = None) -> pd.DataFrame:
+        """Refresh one symbol, fetching only the missing tail. Returns full series.
+        The last cached day is re-fetched (start=last, inclusive) in case it was provisional."""
+        cached = self.load(symbol)
+        fresh = self.provider.get_history(symbol, self._last(cached), end, self.interval)
+        merged = self._merge(cached, fresh)
         if not merged.empty:
             self._save(symbol, merged)
         return merged
@@ -71,14 +80,29 @@ class DataCache:
         end: date | None = None,
         universe_version: str = "0",
     ) -> DataVersion:
-        """Incrementally refresh many symbols and write/return a DataVersion."""
-        first_dates, last_dates, count = [], [], 0
+        """Incrementally refresh many symbols and write/return a DataVersion.
+
+        Symbols are grouped by their last cached date, and each group's missing tail is
+        fetched in one bulk request (``provider.get_history_batch``). On a provider with a
+        multi-symbol endpoint (Alpaca) a uniform daily sweep of ~500 names becomes a handful
+        of calls instead of ~500 — the lever that keeps it under the rate limit. Providers
+        without a bulk endpoint use the per-symbol default and behave exactly as before."""
+        cached = {sym: self.load(sym) for sym in symbols}
+        buckets: dict[date | None, list[str]] = {}
         for sym in symbols:
-            df = self.update_symbol(sym, end)
-            if not df.empty:
+            buckets.setdefault(self._last(cached[sym]), []).append(sym)
+
+        first_dates, last_dates, count = [], [], 0
+        for last, group in buckets.items():
+            fresh = self.provider.get_history_batch(group, last, end, self.interval)
+            for sym in group:
+                merged = self._merge(cached[sym], fresh.get(sym))
+                if merged.empty:
+                    continue
+                self._save(sym, merged)
                 count += 1
-                first_dates.append(df.index.min())
-                last_dates.append(df.index.max())
+                first_dates.append(merged.index.min())
+                last_dates.append(merged.index.max())
         version = DataVersion(
             provider=self.provider.name,
             provider_version=self.provider.version,
