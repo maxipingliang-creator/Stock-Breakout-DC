@@ -58,6 +58,23 @@ def _backoff_seconds(attempt: int) -> float:
     return min(2.0 ** attempt, 30.0)
 
 
+_TRADING_HOSTS = ("paper-api.alpaca.markets", "api.alpaca.markets")
+
+
+def _normalize_trading_host(raw: str | None) -> str:
+    """``ALPACA_BASE_URL`` is meant to be a *trading* host (paper-api / api .alpaca.markets);
+    ``/v2/calendar`` and ``/v2/assets`` 404 on anything else — the data host, the dashboard URL,
+    or a host carrying a path — which silently broke the trading-day calendar (the Juneteenth
+    gap). Keep a recognized trading host (scheme+host only); fall back to the paper host for
+    everything else. The calendar is market-wide (identical on paper/live), so the paper default
+    is always safe here; live order *routing* is unaffected (the broker picks its own host)."""
+    raw = (raw or "").strip().rstrip("/")
+    if not raw:
+        return DEFAULT_TRADING_HOST
+    netloc = urllib.parse.urlparse(raw if "://" in raw else f"https://{raw}").netloc.lower()
+    return f"https://{netloc}" if netloc in _TRADING_HOSTS else DEFAULT_TRADING_HOST
+
+
 def parse_bars(bars: list[dict]) -> pd.DataFrame:
     """Alpaca v2 stock bars (``t,o,h,l,c,v``) -> canonical OHLCV (one row per day)."""
     if not bars:
@@ -127,15 +144,7 @@ class AlpacaProvider(DataProvider):
     def __init__(self, universe_csv: str | None = None) -> None:
         self.api_key = os.environ.get("ALPACA_API_KEY")
         self.secret = os.environ.get("ALPACA_SECRET_KEY")
-        base = (os.environ.get("ALPACA_BASE_URL") or DEFAULT_TRADING_HOST).rstrip("/")
-        # /v2/calendar and /v2/assets are TRADING-API endpoints — they 404 on the *data* host.
-        # ALPACA_BASE_URL is easily (mis)set to the data host since this is the data provider,
-        # which silently broke the trading-day calendar (the gap that let the scan fire on
-        # Juneteenth). Remap the data host to the paper trading host — the calendar is
-        # market-wide, identical on paper/live, so this is always safe.
-        if "data.alpaca.markets" in base:
-            base = DEFAULT_TRADING_HOST
-        self.trading_host = base
+        self.trading_host = _normalize_trading_host(os.environ.get("ALPACA_BASE_URL"))
         self.feed = os.environ.get("ALPACA_FEED", "iex")
         self.adjustment = os.environ.get("ALPACA_ADJUSTMENT", "all")
         self.universe_csv = (
