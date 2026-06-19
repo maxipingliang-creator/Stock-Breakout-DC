@@ -127,7 +127,15 @@ class AlpacaProvider(DataProvider):
     def __init__(self, universe_csv: str | None = None) -> None:
         self.api_key = os.environ.get("ALPACA_API_KEY")
         self.secret = os.environ.get("ALPACA_SECRET_KEY")
-        self.trading_host = (os.environ.get("ALPACA_BASE_URL") or DEFAULT_TRADING_HOST).rstrip("/")
+        base = (os.environ.get("ALPACA_BASE_URL") or DEFAULT_TRADING_HOST).rstrip("/")
+        # /v2/calendar and /v2/assets are TRADING-API endpoints — they 404 on the *data* host.
+        # ALPACA_BASE_URL is easily (mis)set to the data host since this is the data provider,
+        # which silently broke the trading-day calendar (the gap that let the scan fire on
+        # Juneteenth). Remap the data host to the paper trading host — the calendar is
+        # market-wide, identical on paper/live, so this is always safe.
+        if "data.alpaca.markets" in base:
+            base = DEFAULT_TRADING_HOST
+        self.trading_host = base
         self.feed = os.environ.get("ALPACA_FEED", "iex")
         self.adjustment = os.environ.get("ALPACA_ADJUSTMENT", "all")
         self.universe_csv = (
@@ -170,8 +178,9 @@ class AlpacaProvider(DataProvider):
 
     # -- calendar -----------------------------------------------------------
     def get_calendar(self, start: date, end: date) -> list[date]:
-        """Trading sessions in [start, end] from Alpaca's /v2/calendar. Returns []
-        on failure / missing creds, so callers fall back to a weekday heuristic."""
+        """Trading sessions in [start, end] from Alpaca's /v2/calendar (a trading-API
+        endpoint — see the host remap in __init__). Returns [] on failure / missing creds,
+        so callers fall back to a weekday+holiday heuristic."""
         url = (f"{self.trading_host}/v2/calendar"
                f"?start={start.isoformat()}&end={end.isoformat()}")
         out: list[date] = []
@@ -182,6 +191,13 @@ class AlpacaProvider(DataProvider):
                     out.append(date.fromisoformat(d))
                 except ValueError:
                     pass
+        if not out and self.is_available():
+            # Creds are set but the calendar came back empty — a real misconfig signal (e.g.
+            # ALPACA_BASE_URL not a trading host, or auth scoped to data only). Surface it so
+            # the trading-day gate's fallback is no longer silent.
+            print(f"[alpaca] /v2/calendar at {self.trading_host} returned no sessions for "
+                  f"{start}..{end}; the trading-day gate will use its weekday+holiday fallback.",
+                  file=sys.stderr)
         return out
 
     # -- prices -------------------------------------------------------------
