@@ -240,19 +240,32 @@ class SignalRepository:
         row = self.db.query_one("SELECT MAX(signal_date) d FROM signals")
         return row["d"] if row and row.get("d") else None
 
-    def forward_record(self, strategy: str, horizon: int = 20) -> dict | None:
+    def forward_record(self, strategy: str, horizon: int = 20,
+                       r_floor: float = -1.0, r_cap: float = 2.0) -> dict | None:
         """Realized forward record for a strategy's tracked signals: count, win%,
         and avg R-multiple at ``horizon`` days. Falls back to the most mature
         horizon that has data when ``horizon`` isn't realized yet (recent signals).
-        Returns None when nothing has been tracked for the strategy."""
+        Returns None when nothing has been tracked for the strategy.
+
+        Each signal's forward R is **clamped to the realizable [``r_floor``, ``r_cap``]
+        band** — the strategy's stop (−1R) and target (+2R) — before averaging: a live
+        trade can't lose more than its stop or gain past its target, but the raw
+        mark-to-horizon ``r_multiple`` in ``signal_performance`` can overshoot both (a
+        name that keeps falling marks e.g. −2.5R even though a real stop exits at −1R).
+        Without the clamp one un-tradeable outlier can swing this gate (it suspends a
+        strategy on a negative live record) far past anything actually realizable. Win%
+        keys off the raw sign, which the clamp never flips."""
+        clamp = ("CASE WHEN p.r_multiple < ? THEN ? WHEN p.r_multiple > ? THEN ? "
+                 "ELSE p.r_multiple END")
         sql = (
             "SELECT COUNT(*) n, "
             "AVG(CASE WHEN p.r_multiple > 0 THEN 1.0 ELSE 0.0 END) win, "
-            "AVG(p.r_multiple) avg_r "
+            f"AVG({clamp}) avg_r "
             "FROM signal_performance p JOIN signals s ON s.signal_id = p.signal_id "
             "WHERE s.strategy = ? AND p.r_multiple IS NOT NULL AND p.horizon_days = ?"
         )
-        row = self.db.query_one(sql, (strategy, horizon))
+        cp = (r_floor, r_floor, r_cap, r_cap)        # clamp params: < floor -> floor, > cap -> cap
+        row = self.db.query_one(sql, (*cp, strategy, horizon))
         used = horizon
         if not row or not row.get("n"):
             mx = self.db.query_one(
@@ -262,7 +275,7 @@ class SignalRepository:
             if not mx or mx.get("h") is None:
                 return None
             used = int(mx["h"])
-            row = self.db.query_one(sql, (strategy, used))
+            row = self.db.query_one(sql, (*cp, strategy, used))
         if not row or not row.get("n"):
             return None
         return {"n": int(row["n"]), "win_pct": round((row["win"] or 0.0) * 100, 0),
