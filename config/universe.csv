@@ -6,530 +6,530 @@ symbol,name,exchange,security_type,sector,market_cap,listing_date,delisting_date
 # metadata below (which wins on overlap). New members carry sparse metadata
 # (empty exchange / Unknown sector / market_cap 0) — the universe builder defers
 # on those; the $-volume liquidity filter governs. Re-run the script to refresh.
-A,,,COMMON,Unknown,0.0,2000-06-05,,active
-AAPL,Apple Inc.,NASDAQ,COMMON,Technology,3400000000000,1980-12-12,,active
-ABBV,AbbVie Inc.,NYSE,COMMON,Healthcare,330000000000,2013-01-02,,active
+A,,,COMMON,Health Care,0.0,2000-06-05,,active
+AAPL,Apple Inc.,NASDAQ,COMMON,Information Technology,3400000000000,1980-12-12,,active
+ABBV,AbbVie Inc.,NYSE,COMMON,Health Care,330000000000,2013-01-02,,active
 ABNB,Airbnb Inc.,NASDAQ,COMMON,Consumer Discretionary,80000000000,2020-12-10,,active
-ABT,Abbott Laboratories,NYSE,COMMON,Healthcare,200000000000,1937-01-01,,active
-ACGL,,,COMMON,Unknown,0.0,2022-11-01,,active
-ACN,,,COMMON,Unknown,0.0,2011-07-06,,active
-ADBE,Adobe Inc.,NASDAQ,COMMON,Technology,220000000000,1986-08-20,,active
-ADI,Analog Devices,NASDAQ,COMMON,Technology,110000000000,1979-01-01,,active
-ADM,,,COMMON,Unknown,0.0,1996-01-02,,active
-ADP,,,COMMON,Unknown,0.0,1996-01-02,,active
-ADSK,,,COMMON,Unknown,0.0,1996-01-02,,active
-AEE,,,COMMON,Unknown,0.0,1996-01-02,,active
-AEP,,,COMMON,Unknown,0.0,1996-01-02,,active
-AES,,,COMMON,Unknown,0.0,1998-10-02,,active
-AFL,,,COMMON,Unknown,0.0,1999-05-28,,active
-AIG,,,COMMON,Unknown,0.0,1996-01-02,,active
-AIZ,,,COMMON,Unknown,0.0,2007-04-10,,active
-AJG,,,COMMON,Unknown,0.0,2016-05-31,,active
-AKAM,,,COMMON,Unknown,0.0,2007-07-12,,active
-ALB,,,COMMON,Unknown,0.0,2016-07-01,,active
-ALGN,,,COMMON,Unknown,0.0,2017-06-19,,active
-ALL,,,COMMON,Unknown,0.0,1996-01-02,,active
-ALLE,,,COMMON,Unknown,0.0,2013-12-02,,active
-AMAT,Applied Materials,NASDAQ,COMMON,Technology,150000000000,1972-10-01,,active
-AMCR,,,COMMON,Unknown,0.0,2019-06-07,,active
-AMD,Advanced Micro Devices,NASDAQ,COMMON,Technology,250000000000,1972-09-27,,active
-AME,,,COMMON,Unknown,0.0,2013-09-23,,active
-AMGN,Amgen Inc.,NASDAQ,COMMON,Healthcare,150000000000,1983-06-17,,active
-AMP,,,COMMON,Unknown,0.0,1996-01-02,,active
+ABT,Abbott Laboratories,NYSE,COMMON,Health Care,200000000000,1937-01-01,,active
+ACGL,,,COMMON,Financials,0.0,2022-11-01,,active
+ACN,,,COMMON,Information Technology,0.0,2011-07-06,,active
+ADBE,Adobe Inc.,NASDAQ,COMMON,Information Technology,220000000000,1986-08-20,,active
+ADI,Analog Devices,NASDAQ,COMMON,Information Technology,110000000000,1979-01-01,,active
+ADM,,,COMMON,Consumer Staples,0.0,1996-01-02,,active
+ADP,,,COMMON,Industrials,0.0,1996-01-02,,active
+ADSK,,,COMMON,Information Technology,0.0,1996-01-02,,active
+AEE,,,COMMON,Utilities,0.0,1996-01-02,,active
+AEP,,,COMMON,Utilities,0.0,1996-01-02,,active
+AES,,,COMMON,Utilities,0.0,1998-10-02,,active
+AFL,,,COMMON,Financials,0.0,1999-05-28,,active
+AIG,,,COMMON,Financials,0.0,1996-01-02,,active
+AIZ,,,COMMON,Financials,0.0,2007-04-10,,active
+AJG,,,COMMON,Financials,0.0,2016-05-31,,active
+AKAM,,,COMMON,Information Technology,0.0,2007-07-12,,active
+ALB,,,COMMON,Materials,0.0,2016-07-01,,active
+ALGN,,,COMMON,Health Care,0.0,2017-06-19,,active
+ALL,,,COMMON,Financials,0.0,1996-01-02,,active
+ALLE,,,COMMON,Industrials,0.0,2013-12-02,,active
+AMAT,Applied Materials,NASDAQ,COMMON,Information Technology,150000000000,1972-10-01,,active
+AMCR,,,COMMON,Materials,0.0,2019-06-07,,active
+AMD,Advanced Micro Devices,NASDAQ,COMMON,Information Technology,250000000000,1972-09-27,,active
+AME,,,COMMON,Industrials,0.0,2013-09-23,,active
+AMGN,Amgen Inc.,NASDAQ,COMMON,Health Care,150000000000,1983-06-17,,active
+AMP,,,COMMON,Financials,0.0,1996-01-02,,active
 AMT,American Tower,NYSE,COMMON,Real Estate,90000000000,1998-06-05,,active
 AMZN,Amazon.com Inc.,NASDAQ,COMMON,Consumer Discretionary,2000000000000,1997-05-15,,active
-ANET,,,COMMON,Unknown,0.0,2018-08-28,,active
-AON,,,COMMON,Unknown,0.0,1996-04-23,,active
-AOS,,,COMMON,Unknown,0.0,2017-07-26,,active
-APA,,,COMMON,Unknown,0.0,1997-07-28,,active
-APD,,,COMMON,Unknown,0.0,1996-01-02,,active
-APH,,,COMMON,Unknown,0.0,2008-09-30,,active
-APO,,,COMMON,Unknown,0.0,2024-12-23,,active
-APP,,,COMMON,Unknown,0.0,2025-09-22,,active
-APTV,,,COMMON,Unknown,0.0,2012-12-24,,active
-ARE,,,COMMON,Unknown,0.0,2017-03-20,,active
-ARES,,,COMMON,Unknown,0.0,2025-12-11,,active
-ATO,,,COMMON,Unknown,0.0,2019-02-15,,active
-AVB,,,COMMON,Unknown,0.0,2007-01-10,,active
-AVGO,Broadcom Inc.,NASDAQ,COMMON,Technology,800000000000,2009-08-06,,active
-AVY,,,COMMON,Unknown,0.0,1996-01-02,,active
-AWK,,,COMMON,Unknown,0.0,2016-03-04,,active
-AXON,,,COMMON,Unknown,0.0,2023-05-04,,active
+ANET,,,COMMON,Information Technology,0.0,2018-08-28,,active
+AON,,,COMMON,Financials,0.0,1996-04-23,,active
+AOS,,,COMMON,Industrials,0.0,2017-07-26,,active
+APA,,,COMMON,Energy,0.0,1997-07-28,,active
+APD,,,COMMON,Materials,0.0,1996-01-02,,active
+APH,,,COMMON,Information Technology,0.0,2008-09-30,,active
+APO,,,COMMON,Financials,0.0,2024-12-23,,active
+APP,,,COMMON,Information Technology,0.0,2025-09-22,,active
+APTV,,,COMMON,Consumer Discretionary,0.0,2012-12-24,,active
+ARE,,,COMMON,Real Estate,0.0,2017-03-20,,active
+ARES,,,COMMON,Financials,0.0,2025-12-11,,active
+ATO,,,COMMON,Utilities,0.0,2019-02-15,,active
+AVB,,,COMMON,Real Estate,0.0,2007-01-10,,active
+AVGO,Broadcom Inc.,NASDAQ,COMMON,Information Technology,800000000000,2009-08-06,,active
+AVY,,,COMMON,Materials,0.0,1996-01-02,,active
+AWK,,,COMMON,Utilities,0.0,2016-03-04,,active
+AXON,,,COMMON,Industrials,0.0,2023-05-04,,active
 AXP,American Express,NYSE,COMMON,Financials,200000000000,1977-05-31,,active
-AZO,,,COMMON,Unknown,0.0,1997-01-02,,active
+AZO,,,COMMON,Consumer Discretionary,0.0,1997-01-02,,active
 BA,Boeing Co.,NYSE,COMMON,Industrials,130000000000,1962-01-02,,active
 BAC,Bank of America,NYSE,COMMON,Financials,300000000000,1973-01-01,,active
-BALL,,,COMMON,Unknown,0.0,2022-05-10,,active
-BAX,,,COMMON,Unknown,0.0,1996-01-02,,active
-BBY,,,COMMON,Unknown,0.0,1999-06-30,,active
-BDX,,,COMMON,Unknown,0.0,1996-01-02,,active
-BEN,,,COMMON,Unknown,0.0,1998-04-29,,active
+BALL,,,COMMON,Materials,0.0,2022-05-10,,active
+BAX,,,COMMON,Health Care,0.0,1996-01-02,,active
+BBY,,,COMMON,Consumer Discretionary,0.0,1999-06-30,,active
+BDX,,,COMMON,Health Care,0.0,1996-01-02,,active
+BEN,,,COMMON,Financials,0.0,1998-04-29,,active
 BF.B,,,COMMON,Unknown,0.0,1996-01-02,,active
-BG,,,COMMON,Unknown,0.0,2023-03-15,,active
-BIIB,,,COMMON,Unknown,0.0,2003-11-13,,active
+BG,,,COMMON,Consumer Staples,0.0,2023-03-15,,active
+BIIB,,,COMMON,Health Care,0.0,2003-11-13,,active
 BK,,,COMMON,Unknown,0.0,1996-01-02,,active
 BKNG,Booking Holdings,NASDAQ,COMMON,Consumer Discretionary,160000000000,1999-03-30,,active
-BKR,,,COMMON,Unknown,0.0,2019-10-18,,active
-BLDR,,,COMMON,Unknown,0.0,2023-10-18,,active
+BKR,,,COMMON,Energy,0.0,2019-10-18,,active
+BLDR,,,COMMON,Industrials,0.0,2023-10-18,,active
 BLK,BlackRock Inc.,NYSE,COMMON,Financials,150000000000,1999-10-01,,active
-BMY,Bristol-Myers Squibb,NYSE,COMMON,Healthcare,100000000000,1933-01-01,,active
-BR,,,COMMON,Unknown,0.0,1996-01-02,,active
+BMY,Bristol-Myers Squibb,NYSE,COMMON,Health Care,100000000000,1933-01-01,,active
+BR,,,COMMON,Industrials,0.0,1996-01-02,,active
 BRK.B,,,COMMON,Unknown,0.0,2010-02-16,,active
-BRO,,,COMMON,Unknown,0.0,2021-09-20,,active
-BSX,,,COMMON,Unknown,0.0,1996-01-02,,active
-BX,,,COMMON,Unknown,0.0,2023-09-18,,active
-BXP,,,COMMON,Unknown,0.0,2006-04-03,,active
+BRO,,,COMMON,Financials,0.0,2021-09-20,,active
+BSX,,,COMMON,Health Care,0.0,1996-01-02,,active
+BX,,,COMMON,Financials,0.0,2023-09-18,,active
+BXP,,,COMMON,Real Estate,0.0,2006-04-03,,active
 C,Citigroup Inc.,NYSE,COMMON,Financials,130000000000,1977-01-01,,active
 CAG,,,COMMON,Unknown,0.0,1996-01-02,,active
-CAH,,,COMMON,Unknown,0.0,1997-05-27,,active
-CARR,,,COMMON,Unknown,0.0,2020-04-03,,active
+CAH,,,COMMON,Health Care,0.0,1997-05-27,,active
+CARR,,,COMMON,Industrials,0.0,2020-04-03,,active
 CAT,Caterpillar Inc.,NYSE,COMMON,Industrials,180000000000,1929-12-02,,active
-CB,,,COMMON,Unknown,0.0,1996-01-02,,active
-CBOE,,,COMMON,Unknown,0.0,2017-03-01,,active
-CBRE,,,COMMON,Unknown,0.0,2006-11-10,,active
-CCI,,,COMMON,Unknown,0.0,1996-01-02,,active
-CCL,,,COMMON,Unknown,0.0,1998-12-22,,active
-CDNS,Cadence Design,NASDAQ,COMMON,Technology,80000000000,1987-06-01,,active
-CDW,,,COMMON,Unknown,0.0,2019-09-23,,active
-CEG,,,COMMON,Unknown,0.0,1996-01-02,,active
-CF,,,COMMON,Unknown,0.0,2000-06-19,,active
-CFG,,,COMMON,Unknown,0.0,2016-02-01,,active
-CHD,,,COMMON,Unknown,0.0,2015-12-29,,active
-CHRW,,,COMMON,Unknown,0.0,2007-03-02,,active
-CHTR,,,COMMON,Unknown,0.0,2016-09-08,,active
-CI,,,COMMON,Unknown,0.0,1996-01-02,,active
-CINF,,,COMMON,Unknown,0.0,1997-12-18,,active
+CB,,,COMMON,Financials,0.0,1996-01-02,,active
+CBOE,,,COMMON,Financials,0.0,2017-03-01,,active
+CBRE,,,COMMON,Real Estate,0.0,2006-11-10,,active
+CCI,,,COMMON,Real Estate,0.0,1996-01-02,,active
+CCL,,,COMMON,Consumer Discretionary,0.0,1998-12-22,,active
+CDNS,Cadence Design,NASDAQ,COMMON,Information Technology,80000000000,1987-06-01,,active
+CDW,,,COMMON,Information Technology,0.0,2019-09-23,,active
+CEG,,,COMMON,Utilities,0.0,1996-01-02,,active
+CF,,,COMMON,Materials,0.0,2000-06-19,,active
+CFG,,,COMMON,Financials,0.0,2016-02-01,,active
+CHD,,,COMMON,Consumer Staples,0.0,2015-12-29,,active
+CHRW,,,COMMON,Industrials,0.0,2007-03-02,,active
+CHTR,,,COMMON,Communication Services,0.0,2016-09-08,,active
+CI,,,COMMON,Health Care,0.0,1996-01-02,,active
+CINF,,,COMMON,Financials,0.0,1997-12-18,,active
 CL,Colgate-Palmolive,NYSE,COMMON,Consumer Staples,75000000000,1950-01-01,,active
-CLX,,,COMMON,Unknown,0.0,1996-01-02,,active
+CLX,,,COMMON,Consumer Staples,0.0,1996-01-02,,active
 CMCSA,Comcast Corp.,NASDAQ,COMMON,Communication Services,150000000000,1972-06-29,,active
-CME,,,COMMON,Unknown,0.0,2006-08-11,,active
-CMG,,,COMMON,Unknown,0.0,2011-04-28,,active
-CMI,,,COMMON,Unknown,0.0,1996-01-02,,active
-CMS,,,COMMON,Unknown,0.0,1999-05-03,,active
-CNC,,,COMMON,Unknown,0.0,1997-01-15,,active
-CNP,,,COMMON,Unknown,0.0,1996-01-02,,active
-COF,,,COMMON,Unknown,0.0,1998-07-01,,active
-COIN,,,COMMON,Unknown,0.0,2025-05-19,,active
-COO,,,COMMON,Unknown,0.0,2016-09-23,,active
+CME,,,COMMON,Financials,0.0,2006-08-11,,active
+CMG,,,COMMON,Consumer Discretionary,0.0,2011-04-28,,active
+CMI,,,COMMON,Industrials,0.0,1996-01-02,,active
+CMS,,,COMMON,Utilities,0.0,1999-05-03,,active
+CNC,,,COMMON,Health Care,0.0,1997-01-15,,active
+CNP,,,COMMON,Utilities,0.0,1996-01-02,,active
+COF,,,COMMON,Financials,0.0,1998-07-01,,active
+COIN,,,COMMON,Financials,0.0,2025-05-19,,active
+COO,,,COMMON,Health Care,0.0,2016-09-23,,active
 COP,ConocoPhillips,NYSE,COMMON,Energy,120000000000,1982-01-01,,active
-COR,,,COMMON,Unknown,0.0,2023-08-30,,active
+COR,,,COMMON,Health Care,0.0,2023-08-30,,active
 COST,Costco Wholesale,NASDAQ,COMMON,Consumer Staples,400000000000,1985-12-05,,active
-CPAY,,,COMMON,Unknown,0.0,2024-03-25,,active
+CPAY,,,COMMON,Financials,0.0,2024-03-25,,active
 CPB,,,COMMON,Unknown,0.0,1996-01-02,,active
-CPRT,,,COMMON,Unknown,0.0,2018-07-02,,active
-CPT,,,COMMON,Unknown,0.0,2022-04-04,,active
-CRH,,,COMMON,Unknown,0.0,2025-12-22,,active
-CRL,,,COMMON,Unknown,0.0,2021-05-14,,active
-CRM,Salesforce Inc.,NYSE,COMMON,Technology,260000000000,2004-06-23,,active
-CRWD,CrowdStrike Holdings,NASDAQ,COMMON,Technology,80000000000,2019-06-12,,active
-CSCO,Cisco Systems,NASDAQ,COMMON,Technology,240000000000,1990-02-16,,active
-CSGP,,,COMMON,Unknown,0.0,2022-09-19,,active
-CSX,,,COMMON,Unknown,0.0,1996-01-02,,active
-CTAS,,,COMMON,Unknown,0.0,2001-03-01,,active
+CPRT,,,COMMON,Industrials,0.0,2018-07-02,,active
+CPT,,,COMMON,Real Estate,0.0,2022-04-04,,active
+CRH,,,COMMON,Materials,0.0,2025-12-22,,active
+CRL,,,COMMON,Health Care,0.0,2021-05-14,,active
+CRM,Salesforce Inc.,NYSE,COMMON,Information Technology,260000000000,2004-06-23,,active
+CRWD,CrowdStrike Holdings,NASDAQ,COMMON,Information Technology,80000000000,2019-06-12,,active
+CSCO,Cisco Systems,NASDAQ,COMMON,Information Technology,240000000000,1990-02-16,,active
+CSGP,,,COMMON,Real Estate,0.0,2022-09-19,,active
+CSX,,,COMMON,Industrials,0.0,1996-01-02,,active
+CTAS,,,COMMON,Industrials,0.0,2001-03-01,,active
 CTRA,,,COMMON,Unknown,0.0,2021-10-04,,active
-CTSH,,,COMMON,Unknown,0.0,2006-11-17,,active
-CTVA,,,COMMON,Unknown,0.0,2019-06-03,,active
-CVNA,,,COMMON,Unknown,0.0,2025-12-22,,active
-CVS,,,COMMON,Unknown,0.0,1996-01-02,,active
+CTSH,,,COMMON,Information Technology,0.0,2006-11-17,,active
+CTVA,,,COMMON,Materials,0.0,2019-06-03,,active
+CVNA,,,COMMON,Consumer Discretionary,0.0,2025-12-22,,active
+CVS,,,COMMON,Health Care,0.0,1996-01-02,,active
 CVX,Chevron Corp.,NYSE,COMMON,Energy,280000000000,1972-01-01,,active
-D,,,COMMON,Unknown,0.0,1996-01-02,,active
-DAL,,,COMMON,Unknown,0.0,2013-09-11,,active
-DASH,,,COMMON,Unknown,0.0,2025-03-24,,active
+D,,,COMMON,Utilities,0.0,1996-01-02,,active
+DAL,,,COMMON,Industrials,0.0,2013-09-11,,active
+DASH,,,COMMON,Consumer Discretionary,0.0,2025-03-24,,active
 DAY,,,COMMON,Unknown,0.0,2024-02-01,,active
-DD,,,COMMON,Unknown,0.0,1996-01-02,,active
-DDOG,Datadog Inc.,NASDAQ,COMMON,Technology,45000000000,2019-09-19,,active
+DD,,,COMMON,Materials,0.0,1996-01-02,,active
+DDOG,Datadog Inc.,NASDAQ,COMMON,Information Technology,45000000000,2019-09-19,,active
 DE,Deere & Co.,NYSE,COMMON,Industrials,130000000000,1972-01-01,,active
-DECK,,,COMMON,Unknown,0.0,2024-03-18,,active
-DELL,,,COMMON,Unknown,0.0,1996-09-06,,active
-DG,,,COMMON,Unknown,0.0,1998-07-16,,active
-DGX,,,COMMON,Unknown,0.0,2002-12-12,,active
-DHI,,,COMMON,Unknown,0.0,2005-07-05,,active
-DHR,Danaher Corp.,NYSE,COMMON,Healthcare,170000000000,1978-01-01,,active
+DECK,,,COMMON,Consumer Discretionary,0.0,2024-03-18,,active
+DELL,,,COMMON,Information Technology,0.0,1996-09-06,,active
+DG,,,COMMON,Consumer Staples,0.0,1998-07-16,,active
+DGX,,,COMMON,Health Care,0.0,2002-12-12,,active
+DHI,,,COMMON,Consumer Discretionary,0.0,2005-07-05,,active
+DHR,Danaher Corp.,NYSE,COMMON,Health Care,170000000000,1978-01-01,,active
 DIS,Walt Disney Co.,NYSE,COMMON,Communication Services,200000000000,1957-11-12,,active
-DLR,,,COMMON,Unknown,0.0,2016-05-18,,active
-DLTR,,,COMMON,Unknown,0.0,2011-12-19,,active
-DOC,,,COMMON,Unknown,0.0,2024-03-04,,active
-DOV,,,COMMON,Unknown,0.0,1996-01-02,,active
-DOW,,,COMMON,Unknown,0.0,1996-01-02,,active
-DPZ,,,COMMON,Unknown,0.0,2020-05-12,,active
-DRI,,,COMMON,Unknown,0.0,1996-01-02,,active
-DTE,,,COMMON,Unknown,0.0,1996-01-02,,active
+DLR,,,COMMON,Real Estate,0.0,2016-05-18,,active
+DLTR,,,COMMON,Consumer Staples,0.0,2011-12-19,,active
+DOC,,,COMMON,Real Estate,0.0,2024-03-04,,active
+DOV,,,COMMON,Industrials,0.0,1996-01-02,,active
+DOW,,,COMMON,Materials,0.0,1996-01-02,,active
+DPZ,,,COMMON,Consumer Discretionary,0.0,2020-05-12,,active
+DRI,,,COMMON,Consumer Discretionary,0.0,1996-01-02,,active
+DTE,,,COMMON,Utilities,0.0,1996-01-02,,active
 DUK,Duke Energy,NYSE,COMMON,Utilities,90000000000,1961-01-01,,active
-DVA,,,COMMON,Unknown,0.0,2008-07-31,,active
-DVN,,,COMMON,Unknown,0.0,2000-08-30,,active
-DXCM,,,COMMON,Unknown,0.0,2020-05-12,,active
-EA,,,COMMON,Unknown,0.0,2002-07-22,,active
-EBAY,,,COMMON,Unknown,0.0,2002-07-22,,active
-ECL,,,COMMON,Unknown,0.0,1996-01-02,,active
-ED,,,COMMON,Unknown,0.0,1996-01-02,,active
-EFX,,,COMMON,Unknown,0.0,1997-06-19,,active
-EG,,,COMMON,Unknown,0.0,2023-07-10,,active
-EIX,,,COMMON,Unknown,0.0,1996-01-02,,active
-EL,,,COMMON,Unknown,0.0,2006-01-05,,active
-ELV,,,COMMON,Unknown,0.0,2022-06-28,,active
-EME,,,COMMON,Unknown,0.0,2025-09-22,,active
-EMR,,,COMMON,Unknown,0.0,1996-01-02,,active
+DVA,,,COMMON,Health Care,0.0,2008-07-31,,active
+DVN,,,COMMON,Energy,0.0,2000-08-30,,active
+DXCM,,,COMMON,Health Care,0.0,2020-05-12,,active
+EA,,,COMMON,Communication Services,0.0,2002-07-22,,active
+EBAY,,,COMMON,Consumer Discretionary,0.0,2002-07-22,,active
+ECL,,,COMMON,Materials,0.0,1996-01-02,,active
+ED,,,COMMON,Utilities,0.0,1996-01-02,,active
+EFX,,,COMMON,Industrials,0.0,1997-06-19,,active
+EG,,,COMMON,Financials,0.0,2023-07-10,,active
+EIX,,,COMMON,Utilities,0.0,1996-01-02,,active
+EL,,,COMMON,Consumer Staples,0.0,2006-01-05,,active
+ELV,,,COMMON,Health Care,0.0,2022-06-28,,active
+EME,,,COMMON,Industrials,0.0,2025-09-22,,active
+EMR,,,COMMON,Industrials,0.0,1996-01-02,,active
 EOG,EOG Resources,NYSE,COMMON,Energy,70000000000,1989-10-01,,active
 EPAM,,,COMMON,Unknown,0.0,2021-12-14,,active
 EQIX,Equinix Inc.,NASDAQ,COMMON,Real Estate,80000000000,2000-08-11,,active
-EQR,,,COMMON,Unknown,0.0,2001-12-03,,active
-EQT,,,COMMON,Unknown,0.0,2008-12-19,,active
-ERIE,,,COMMON,Unknown,0.0,2024-09-23,,active
-ES,,,COMMON,Unknown,0.0,2009-03-17,,active
-ESS,,,COMMON,Unknown,0.0,2014-04-02,,active
-ETN,,,COMMON,Unknown,0.0,1996-01-02,,active
-ETR,,,COMMON,Unknown,0.0,1996-01-02,,active
-EVRG,,,COMMON,Unknown,0.0,2018-06-05,,active
-EW,,,COMMON,Unknown,0.0,2011-04-01,,active
-EXC,,,COMMON,Unknown,0.0,1996-01-02,,active
-EXE,,,COMMON,Unknown,0.0,2025-03-24,,active
-EXPD,,,COMMON,Unknown,0.0,2007-10-10,,active
-EXPE,,,COMMON,Unknown,0.0,2007-10-02,,active
-EXR,,,COMMON,Unknown,0.0,2016-01-19,,active
-F,,,COMMON,Unknown,0.0,1996-01-02,,active
-FANG,,,COMMON,Unknown,0.0,2018-12-03,,active
-FAST,,,COMMON,Unknown,0.0,2008-09-15,,active
+EQR,,,COMMON,Real Estate,0.0,2001-12-03,,active
+EQT,,,COMMON,Energy,0.0,2008-12-19,,active
+ERIE,,,COMMON,Financials,0.0,2024-09-23,,active
+ES,,,COMMON,Utilities,0.0,2009-03-17,,active
+ESS,,,COMMON,Real Estate,0.0,2014-04-02,,active
+ETN,,,COMMON,Industrials,0.0,1996-01-02,,active
+ETR,,,COMMON,Utilities,0.0,1996-01-02,,active
+EVRG,,,COMMON,Utilities,0.0,2018-06-05,,active
+EW,,,COMMON,Health Care,0.0,2011-04-01,,active
+EXC,,,COMMON,Utilities,0.0,1996-01-02,,active
+EXE,,,COMMON,Energy,0.0,2025-03-24,,active
+EXPD,,,COMMON,Industrials,0.0,2007-10-10,,active
+EXPE,,,COMMON,Consumer Discretionary,0.0,2007-10-02,,active
+EXR,,,COMMON,Real Estate,0.0,2016-01-19,,active
+F,,,COMMON,Consumer Discretionary,0.0,1996-01-02,,active
+FANG,,,COMMON,Energy,0.0,2018-12-03,,active
+FAST,,,COMMON,Industrials,0.0,2008-09-15,,active
 FCX,Freeport-McMoRan,NYSE,COMMON,Materials,60000000000,1995-07-01,,active
-FDS,,,COMMON,Unknown,0.0,2021-12-20,,active
-FDX,,,COMMON,Unknown,0.0,1996-01-02,,active
-FE,,,COMMON,Unknown,0.0,1996-01-02,,active
-FFIV,,,COMMON,Unknown,0.0,2010-12-20,,active
-FICO,,,COMMON,Unknown,0.0,2023-03-20,,active
-FIS,,,COMMON,Unknown,0.0,2006-11-10,,active
-FISV,,,COMMON,Unknown,0.0,2001-04-02,,active
-FITB,,,COMMON,Unknown,0.0,1996-03-08,,active
-FIX,,,COMMON,Unknown,0.0,2025-12-22,,active
-FOX,,,COMMON,Unknown,0.0,2015-09-21,,active
-FOXA,,,COMMON,Unknown,0.0,2004-12-20,,active
-FRT,,,COMMON,Unknown,0.0,2016-02-01,,active
-FSLR,,,COMMON,Unknown,0.0,2009-10-16,,active
-FTNT,,,COMMON,Unknown,0.0,2018-10-11,,active
-FTV,,,COMMON,Unknown,0.0,2016-07-05,,active
-GD,,,COMMON,Unknown,0.0,1996-01-02,,active
-GDDY,,,COMMON,Unknown,0.0,2024-06-24,,active
+FDS,,,COMMON,Financials,0.0,2021-12-20,,active
+FDX,,,COMMON,Industrials,0.0,1996-01-02,,active
+FE,,,COMMON,Utilities,0.0,1996-01-02,,active
+FFIV,,,COMMON,Information Technology,0.0,2010-12-20,,active
+FICO,,,COMMON,Information Technology,0.0,2023-03-20,,active
+FIS,,,COMMON,Financials,0.0,2006-11-10,,active
+FISV,,,COMMON,Financials,0.0,2001-04-02,,active
+FITB,,,COMMON,Financials,0.0,1996-03-08,,active
+FIX,,,COMMON,Industrials,0.0,2025-12-22,,active
+FOX,,,COMMON,Communication Services,0.0,2015-09-21,,active
+FOXA,,,COMMON,Communication Services,0.0,2004-12-20,,active
+FRT,,,COMMON,Real Estate,0.0,2016-02-01,,active
+FSLR,,,COMMON,Information Technology,0.0,2009-10-16,,active
+FTNT,,,COMMON,Information Technology,0.0,2018-10-11,,active
+FTV,,,COMMON,Industrials,0.0,2016-07-05,,active
+GD,,,COMMON,Industrials,0.0,1996-01-02,,active
+GDDY,,,COMMON,Information Technology,0.0,2024-06-24,,active
 GE,GE Aerospace,NYSE,COMMON,Industrials,200000000000,1962-01-02,,active
-GEHC,,,COMMON,Unknown,0.0,2023-01-04,,active
-GEN,,,COMMON,Unknown,0.0,2022-11-08,,active
-GEV,,,COMMON,Unknown,0.0,2024-04-03,,active
-GILD,Gilead Sciences,NASDAQ,COMMON,Healthcare,110000000000,1992-01-22,,active
-GIS,,,COMMON,Unknown,0.0,1996-01-02,,active
-GL,,,COMMON,Unknown,0.0,2019-08-08,,active
-GLW,,,COMMON,Unknown,0.0,1996-01-02,,active
-GM,,,COMMON,Unknown,0.0,2013-06-07,,active
-GNRC,,,COMMON,Unknown,0.0,2021-03-22,,active
-GOOG,,,COMMON,Unknown,0.0,2014-04-03,,active
+GEHC,,,COMMON,Health Care,0.0,2023-01-04,,active
+GEN,,,COMMON,Information Technology,0.0,2022-11-08,,active
+GEV,,,COMMON,Industrials,0.0,2024-04-03,,active
+GILD,Gilead Sciences,NASDAQ,COMMON,Health Care,110000000000,1992-01-22,,active
+GIS,,,COMMON,Consumer Staples,0.0,1996-01-02,,active
+GL,,,COMMON,Financials,0.0,2019-08-08,,active
+GLW,,,COMMON,Information Technology,0.0,1996-01-02,,active
+GM,,,COMMON,Consumer Discretionary,0.0,2013-06-07,,active
+GNRC,,,COMMON,Industrials,0.0,2021-03-22,,active
+GOOG,,,COMMON,Communication Services,0.0,2014-04-03,,active
 GOOGL,Alphabet Inc.,NASDAQ,COMMON,Communication Services,2000000000000,2004-08-19,,active
-GPC,,,COMMON,Unknown,0.0,1996-01-02,,active
-GPN,,,COMMON,Unknown,0.0,2016-04-25,,active
-GRMN,,,COMMON,Unknown,0.0,2012-12-12,,active
+GPC,,,COMMON,Consumer Discretionary,0.0,1996-01-02,,active
+GPN,,,COMMON,Financials,0.0,2016-04-25,,active
+GRMN,,,COMMON,Consumer Discretionary,0.0,2012-12-12,,active
 GS,Goldman Sachs,NYSE,COMMON,Financials,160000000000,1999-05-04,,active
-GWW,,,COMMON,Unknown,0.0,1996-01-02,,active
-HAL,,,COMMON,Unknown,0.0,1996-01-02,,active
-HAS,,,COMMON,Unknown,0.0,1996-01-02,,active
-HBAN,,,COMMON,Unknown,0.0,1997-08-06,,active
-HCA,,,COMMON,Unknown,0.0,1996-01-02,,active
+GWW,,,COMMON,Industrials,0.0,1996-01-02,,active
+HAL,,,COMMON,Energy,0.0,1996-01-02,,active
+HAS,,,COMMON,Consumer Discretionary,0.0,1996-01-02,,active
+HBAN,,,COMMON,Financials,0.0,1997-08-06,,active
+HCA,,,COMMON,Health Care,0.0,1996-01-02,,active
 HD,Home Depot,NYSE,COMMON,Consumer Discretionary,380000000000,1981-09-22,,active
-HIG,,,COMMON,Unknown,0.0,1996-01-02,,active
-HII,,,COMMON,Unknown,0.0,2018-01-03,,active
-HLT,,,COMMON,Unknown,0.0,1996-01-02,,active
+HIG,,,COMMON,Financials,0.0,1996-01-02,,active
+HII,,,COMMON,Industrials,0.0,2018-01-03,,active
+HLT,,,COMMON,Consumer Discretionary,0.0,1996-01-02,,active
 HOLX,,,COMMON,Unknown,0.0,2016-03-30,,active
 HON,Honeywell International,NASDAQ,COMMON,Industrials,140000000000,1985-01-01,,active
-HOOD,,,COMMON,Unknown,0.0,2025-09-22,,active
-HPE,,,COMMON,Unknown,0.0,2015-11-02,,active
-HPQ,,,COMMON,Unknown,0.0,1996-01-02,,active
-HRL,,,COMMON,Unknown,0.0,2009-03-04,,active
-HSIC,,,COMMON,Unknown,0.0,2015-03-18,,active
-HST,,,COMMON,Unknown,0.0,2007-03-20,,active
-HSY,,,COMMON,Unknown,0.0,1996-01-02,,active
-HUBB,,,COMMON,Unknown,0.0,2023-10-18,,active
-HUM,,,COMMON,Unknown,0.0,1996-01-02,,active
-HWM,,,COMMON,Unknown,0.0,2020-04-06,,active
-IBKR,,,COMMON,Unknown,0.0,2025-08-28,,active
-IBM,IBM Corp.,NYSE,COMMON,Technology,210000000000,1962-01-02,,active
-ICE,,,COMMON,Unknown,0.0,2007-09-26,,active
-IDXX,,,COMMON,Unknown,0.0,2017-01-05,,active
-IEX,,,COMMON,Unknown,0.0,2019-08-09,,active
-IFF,,,COMMON,Unknown,0.0,1996-01-02,,active
-INCY,,,COMMON,Unknown,0.0,2017-02-28,,active
-INTC,Intel Corp.,NASDAQ,COMMON,Technology,90000000000,1971-10-13,,active
-INTU,Intuit Inc.,NASDAQ,COMMON,Technology,180000000000,1993-03-12,,active
-INVH,,,COMMON,Unknown,0.0,2022-09-19,,active
-IP,,,COMMON,Unknown,0.0,1996-01-02,,active
-IQV,,,COMMON,Unknown,0.0,2017-08-29,,active
-IR,,,COMMON,Unknown,0.0,1996-01-02,,active
-IRM,,,COMMON,Unknown,0.0,2009-01-06,,active
-ISRG,Intuitive Surgical,NASDAQ,COMMON,Healthcare,180000000000,2000-06-13,,active
-IT,,,COMMON,Unknown,0.0,2017-04-05,,active
-ITW,,,COMMON,Unknown,0.0,1996-01-02,,active
-IVZ,,,COMMON,Unknown,0.0,2008-08-21,,active
-J,,,COMMON,Unknown,0.0,2019-12-10,,active
-JBHT,,,COMMON,Unknown,0.0,2015-07-01,,active
-JBL,,,COMMON,Unknown,0.0,2001-01-30,,active
-JCI,,,COMMON,Unknown,0.0,1996-01-02,,active
-JKHY,,,COMMON,Unknown,0.0,2018-11-13,,active
-JNJ,Johnson & Johnson,NYSE,COMMON,Healthcare,380000000000,1944-09-25,,active
+HOOD,,,COMMON,Financials,0.0,2025-09-22,,active
+HPE,,,COMMON,Information Technology,0.0,2015-11-02,,active
+HPQ,,,COMMON,Information Technology,0.0,1996-01-02,,active
+HRL,,,COMMON,Consumer Staples,0.0,2009-03-04,,active
+HSIC,,,COMMON,Health Care,0.0,2015-03-18,,active
+HST,,,COMMON,Real Estate,0.0,2007-03-20,,active
+HSY,,,COMMON,Consumer Staples,0.0,1996-01-02,,active
+HUBB,,,COMMON,Industrials,0.0,2023-10-18,,active
+HUM,,,COMMON,Health Care,0.0,1996-01-02,,active
+HWM,,,COMMON,Industrials,0.0,2020-04-06,,active
+IBKR,,,COMMON,Financials,0.0,2025-08-28,,active
+IBM,IBM Corp.,NYSE,COMMON,Information Technology,210000000000,1962-01-02,,active
+ICE,,,COMMON,Financials,0.0,2007-09-26,,active
+IDXX,,,COMMON,Health Care,0.0,2017-01-05,,active
+IEX,,,COMMON,Industrials,0.0,2019-08-09,,active
+IFF,,,COMMON,Materials,0.0,1996-01-02,,active
+INCY,,,COMMON,Health Care,0.0,2017-02-28,,active
+INTC,Intel Corp.,NASDAQ,COMMON,Information Technology,90000000000,1971-10-13,,active
+INTU,Intuit Inc.,NASDAQ,COMMON,Information Technology,180000000000,1993-03-12,,active
+INVH,,,COMMON,Real Estate,0.0,2022-09-19,,active
+IP,,,COMMON,Materials,0.0,1996-01-02,,active
+IQV,,,COMMON,Health Care,0.0,2017-08-29,,active
+IR,,,COMMON,Industrials,0.0,1996-01-02,,active
+IRM,,,COMMON,Real Estate,0.0,2009-01-06,,active
+ISRG,Intuitive Surgical,NASDAQ,COMMON,Health Care,180000000000,2000-06-13,,active
+IT,,,COMMON,Information Technology,0.0,2017-04-05,,active
+ITW,,,COMMON,Industrials,0.0,1996-01-02,,active
+IVZ,,,COMMON,Financials,0.0,2008-08-21,,active
+J,,,COMMON,Industrials,0.0,2019-12-10,,active
+JBHT,,,COMMON,Industrials,0.0,2015-07-01,,active
+JBL,,,COMMON,Information Technology,0.0,2001-01-30,,active
+JCI,,,COMMON,Industrials,0.0,1996-01-02,,active
+JKHY,,,COMMON,Financials,0.0,2018-11-13,,active
+JNJ,Johnson & Johnson,NYSE,COMMON,Health Care,380000000000,1944-09-25,,active
 JPM,JPMorgan Chase,NYSE,COMMON,Financials,650000000000,1980-03-17,,active
-KDP,,,COMMON,Unknown,0.0,2008-10-07,,active
-KEY,,,COMMON,Unknown,0.0,1996-01-02,,active
-KEYS,,,COMMON,Unknown,0.0,2018-11-06,,active
-KHC,,,COMMON,Unknown,0.0,2015-07-06,,active
-KIM,,,COMMON,Unknown,0.0,2006-04-03,,active
-KKR,,,COMMON,Unknown,0.0,2024-06-24,,active
-KLAC,KLA Corp.,NASDAQ,COMMON,Technology,100000000000,1980-10-01,,active
-KMB,,,COMMON,Unknown,0.0,1996-01-02,,active
-KMI,,,COMMON,Unknown,0.0,2000-12-12,,active
+KDP,,,COMMON,Consumer Staples,0.0,2008-10-07,,active
+KEY,,,COMMON,Financials,0.0,1996-01-02,,active
+KEYS,,,COMMON,Information Technology,0.0,2018-11-06,,active
+KHC,,,COMMON,Consumer Staples,0.0,2015-07-06,,active
+KIM,,,COMMON,Real Estate,0.0,2006-04-03,,active
+KKR,,,COMMON,Financials,0.0,2024-06-24,,active
+KLAC,KLA Corp.,NASDAQ,COMMON,Information Technology,100000000000,1980-10-01,,active
+KMB,,,COMMON,Consumer Staples,0.0,1996-01-02,,active
+KMI,,,COMMON,Energy,0.0,2000-12-12,,active
 KO,Coca-Cola Co.,NYSE,COMMON,Consumer Staples,280000000000,1950-01-01,,active
-KR,,,COMMON,Unknown,0.0,1996-01-02,,active
-KVUE,,,COMMON,Unknown,0.0,2023-08-25,,active
-L,,,COMMON,Unknown,0.0,1996-01-02,,active
-LDOS,,,COMMON,Unknown,0.0,2009-12-21,,active
-LEN,,,COMMON,Unknown,0.0,2005-10-04,,active
-LH,,,COMMON,Unknown,0.0,2004-11-01,,active
-LHX,,,COMMON,Unknown,0.0,2019-06-01,,active
-LII,,,COMMON,Unknown,0.0,2024-12-23,,active
+KR,,,COMMON,Consumer Staples,0.0,1996-01-02,,active
+KVUE,,,COMMON,Consumer Staples,0.0,2023-08-25,,active
+L,,,COMMON,Financials,0.0,1996-01-02,,active
+LDOS,,,COMMON,Industrials,0.0,2009-12-21,,active
+LEN,,,COMMON,Consumer Discretionary,0.0,2005-10-04,,active
+LH,,,COMMON,Health Care,0.0,2004-11-01,,active
+LHX,,,COMMON,Industrials,0.0,2019-06-01,,active
+LII,,,COMMON,Industrials,0.0,2024-12-23,,active
 LIN,Linde plc,NASDAQ,COMMON,Materials,220000000000,1992-01-01,,active
-LLY,Eli Lilly & Co.,NYSE,COMMON,Healthcare,800000000000,1952-01-01,,active
+LLY,Eli Lilly & Co.,NYSE,COMMON,Health Care,800000000000,1952-01-01,,active
 LMT,Lockheed Martin,NYSE,COMMON,Industrials,110000000000,1977-01-01,,active
-LNT,,,COMMON,Unknown,0.0,2016-07-01,,active
+LNT,,,COMMON,Utilities,0.0,2016-07-01,,active
 LOW,Lowe's Companies,NYSE,COMMON,Consumer Discretionary,140000000000,1961-10-10,,active
-LRCX,Lam Research,NASDAQ,COMMON,Technology,110000000000,1984-05-01,,active
-LULU,,,COMMON,Unknown,0.0,2023-10-18,,active
-LUV,,,COMMON,Unknown,0.0,1996-01-02,,active
-LVS,,,COMMON,Unknown,0.0,2019-10-03,,active
+LRCX,Lam Research,NASDAQ,COMMON,Information Technology,110000000000,1984-05-01,,active
+LULU,,,COMMON,Consumer Discretionary,0.0,2023-10-18,,active
+LUV,,,COMMON,Industrials,0.0,1996-01-02,,active
+LVS,,,COMMON,Consumer Discretionary,0.0,2019-10-03,,active
 LW,,,COMMON,Unknown,0.0,2018-12-03,,active
-LYB,,,COMMON,Unknown,0.0,2012-09-05,,active
-LYV,,,COMMON,Unknown,0.0,2019-12-23,,active
+LYB,,,COMMON,Materials,0.0,2012-09-05,,active
+LYV,,,COMMON,Communication Services,0.0,2019-12-23,,active
 MA,Mastercard Inc.,NYSE,COMMON,Financials,450000000000,2006-05-25,,active
-MAA,,,COMMON,Unknown,0.0,2016-12-02,,active
-MAR,,,COMMON,Unknown,0.0,1998-05-21,,active
-MAS,,,COMMON,Unknown,0.0,1996-01-02,,active
+MAA,,,COMMON,Real Estate,0.0,2016-12-02,,active
+MAR,,,COMMON,Consumer Discretionary,0.0,1998-05-21,,active
+MAS,,,COMMON,Industrials,0.0,1996-01-02,,active
 MCD,McDonald's Corp.,NYSE,COMMON,Consumer Discretionary,220000000000,1965-04-21,,active
-MCHP,,,COMMON,Unknown,0.0,2007-09-07,,active
-MCK,,,COMMON,Unknown,0.0,1999-01-13,,active
-MCO,,,COMMON,Unknown,0.0,1996-01-02,,active
+MCHP,,,COMMON,Information Technology,0.0,2007-09-07,,active
+MCK,,,COMMON,Health Care,0.0,1999-01-13,,active
+MCO,,,COMMON,Financials,0.0,1996-01-02,,active
 MDLZ,Mondelez International,NASDAQ,COMMON,Consumer Staples,90000000000,2001-06-13,,active
-MDT,,,COMMON,Unknown,0.0,1996-01-02,,active
-MET,,,COMMON,Unknown,0.0,2000-12-11,,active
+MDT,,,COMMON,Health Care,0.0,1996-01-02,,active
+MET,,,COMMON,Financials,0.0,2000-12-11,,active
 META,Meta Platforms,NASDAQ,COMMON,Communication Services,1200000000000,2012-05-18,,active
-MGM,,,COMMON,Unknown,0.0,2017-07-26,,active
-MKC,,,COMMON,Unknown,0.0,2003-03-21,,active
-MLM,,,COMMON,Unknown,0.0,2014-07-02,,active
-MMM,,,COMMON,Unknown,0.0,1996-01-02,,active
-MNST,,,COMMON,Unknown,0.0,2012-06-29,,active
-MO,,,COMMON,Unknown,0.0,1996-01-02,,active
+MGM,,,COMMON,Consumer Discretionary,0.0,2017-07-26,,active
+MKC,,,COMMON,Consumer Staples,0.0,2003-03-21,,active
+MLM,,,COMMON,Materials,0.0,2014-07-02,,active
+MMM,,,COMMON,Industrials,0.0,1996-01-02,,active
+MNST,,,COMMON,Consumer Staples,0.0,2012-06-29,,active
+MO,,,COMMON,Consumer Staples,0.0,1996-01-02,,active
 MOH,,,COMMON,Unknown,0.0,2022-03-02,,active
-MOS,,,COMMON,Unknown,0.0,2011-09-26,,active
-MPC,,,COMMON,Unknown,0.0,2011-07-01,,active
-MPWR,,,COMMON,Unknown,0.0,2021-02-12,,active
-MRK,Merck & Co.,NYSE,COMMON,Healthcare,250000000000,1946-01-01,,active
-MRNA,,,COMMON,Unknown,0.0,2021-07-21,,active
-MRSH,,,COMMON,Unknown,0.0,2026-01-14,,active
+MOS,,,COMMON,Materials,0.0,2011-09-26,,active
+MPC,,,COMMON,Energy,0.0,2011-07-01,,active
+MPWR,,,COMMON,Information Technology,0.0,2021-02-12,,active
+MRK,Merck & Co.,NYSE,COMMON,Health Care,250000000000,1946-01-01,,active
+MRNA,,,COMMON,Health Care,0.0,2021-07-21,,active
+MRSH,,,COMMON,Financials,0.0,2026-01-14,,active
 MS,Morgan Stanley,NYSE,COMMON,Financials,180000000000,1986-03-21,,active
-MSCI,,,COMMON,Unknown,0.0,2018-04-04,,active
-MSFT,Microsoft Corp.,NASDAQ,COMMON,Technology,3100000000000,1986-03-13,,active
-MSI,,,COMMON,Unknown,0.0,1996-01-02,,active
-MTB,,,COMMON,Unknown,0.0,2004-02-27,,active
+MSCI,,,COMMON,Financials,0.0,2018-04-04,,active
+MSFT,Microsoft Corp.,NASDAQ,COMMON,Information Technology,3100000000000,1986-03-13,,active
+MSI,,,COMMON,Information Technology,0.0,1996-01-02,,active
+MTB,,,COMMON,Financials,0.0,2004-02-27,,active
 MTCH,,,COMMON,Unknown,0.0,2021-09-20,,active
-MTD,,,COMMON,Unknown,0.0,2016-09-06,,active
-MU,Micron Technology,NASDAQ,COMMON,Technology,120000000000,1984-06-01,,active
-NCLH,,,COMMON,Unknown,0.0,2017-10-13,,active
-NDAQ,,,COMMON,Unknown,0.0,2008-10-22,,active
-NDSN,,,COMMON,Unknown,0.0,2022-02-15,,active
+MTD,,,COMMON,Health Care,0.0,2016-09-06,,active
+MU,Micron Technology,NASDAQ,COMMON,Information Technology,120000000000,1984-06-01,,active
+NCLH,,,COMMON,Consumer Discretionary,0.0,2017-10-13,,active
+NDAQ,,,COMMON,Financials,0.0,2008-10-22,,active
+NDSN,,,COMMON,Industrials,0.0,2022-02-15,,active
 NEE,NextEra Energy,NYSE,COMMON,Utilities,150000000000,1972-01-01,,active
-NEM,,,COMMON,Unknown,0.0,1996-01-02,,active
-NET,Cloudflare Inc.,NYSE,COMMON,Technology,40000000000,2019-09-13,,active
+NEM,,,COMMON,Materials,0.0,1996-01-02,,active
+NET,Cloudflare Inc.,NYSE,COMMON,Information Technology,40000000000,2019-09-13,,active
 NFLX,Netflix Inc.,NASDAQ,COMMON,Communication Services,300000000000,2002-05-23,,active
-NI,,,COMMON,Unknown,0.0,2000-11-02,,active
+NI,,,COMMON,Utilities,0.0,2000-11-02,,active
 NKE,Nike Inc.,NYSE,COMMON,Consumer Discretionary,110000000000,1980-12-02,,active
-NOC,,,COMMON,Unknown,0.0,1996-01-02,,active
-NOW,ServiceNow Inc.,NYSE,COMMON,Technology,180000000000,2012-06-29,,active
-NRG,,,COMMON,Unknown,0.0,2010-01-29,,active
-NSC,,,COMMON,Unknown,0.0,1996-01-02,,active
-NTAP,,,COMMON,Unknown,0.0,1999-06-25,,active
-NTRS,,,COMMON,Unknown,0.0,1998-01-30,,active
-NUE,,,COMMON,Unknown,0.0,1996-01-02,,active
-NVDA,NVIDIA Corp.,NASDAQ,COMMON,Technology,3000000000000,1999-01-22,,active
-NVR,,,COMMON,Unknown,0.0,2019-09-26,,active
-NWS,,,COMMON,Unknown,0.0,2015-09-21,,active
-NWSA,,,COMMON,Unknown,0.0,2013-07-01,,active
-NXPI,,,COMMON,Unknown,0.0,2021-03-22,,active
-O,,,COMMON,Unknown,0.0,2015-04-07,,active
-ODFL,,,COMMON,Unknown,0.0,2019-12-09,,active
-OKE,,,COMMON,Unknown,0.0,1996-01-02,,active
-OMC,,,COMMON,Unknown,0.0,1997-12-24,,active
-ON,,,COMMON,Unknown,0.0,2022-06-21,,active
-ORCL,Oracle Corp.,NYSE,COMMON,Technology,400000000000,1986-03-12,,active
-ORLY,,,COMMON,Unknown,0.0,2009-03-27,,active
-OTIS,,,COMMON,Unknown,0.0,2020-04-03,,active
-OXY,,,COMMON,Unknown,0.0,1996-01-02,,active
-PANW,Palo Alto Networks,NASDAQ,COMMON,Technology,120000000000,2012-07-20,,active
+NOC,,,COMMON,Industrials,0.0,1996-01-02,,active
+NOW,ServiceNow Inc.,NYSE,COMMON,Information Technology,180000000000,2012-06-29,,active
+NRG,,,COMMON,Utilities,0.0,2010-01-29,,active
+NSC,,,COMMON,Industrials,0.0,1996-01-02,,active
+NTAP,,,COMMON,Information Technology,0.0,1999-06-25,,active
+NTRS,,,COMMON,Financials,0.0,1998-01-30,,active
+NUE,,,COMMON,Materials,0.0,1996-01-02,,active
+NVDA,NVIDIA Corp.,NASDAQ,COMMON,Information Technology,3000000000000,1999-01-22,,active
+NVR,,,COMMON,Consumer Discretionary,0.0,2019-09-26,,active
+NWS,,,COMMON,Communication Services,0.0,2015-09-21,,active
+NWSA,,,COMMON,Communication Services,0.0,2013-07-01,,active
+NXPI,,,COMMON,Information Technology,0.0,2021-03-22,,active
+O,,,COMMON,Real Estate,0.0,2015-04-07,,active
+ODFL,,,COMMON,Industrials,0.0,2019-12-09,,active
+OKE,,,COMMON,Energy,0.0,1996-01-02,,active
+OMC,,,COMMON,Communication Services,0.0,1997-12-24,,active
+ON,,,COMMON,Information Technology,0.0,2022-06-21,,active
+ORCL,Oracle Corp.,NYSE,COMMON,Information Technology,400000000000,1986-03-12,,active
+ORLY,,,COMMON,Consumer Discretionary,0.0,2009-03-27,,active
+OTIS,,,COMMON,Industrials,0.0,2020-04-03,,active
+OXY,,,COMMON,Energy,0.0,1996-01-02,,active
+PANW,Palo Alto Networks,NASDAQ,COMMON,Information Technology,120000000000,2012-07-20,,active
 PAYC,,,COMMON,Unknown,0.0,2020-01-28,,active
-PAYX,,,COMMON,Unknown,0.0,1998-10-01,,active
-PCAR,,,COMMON,Unknown,0.0,1996-01-02,,active
-PCG,,,COMMON,Unknown,0.0,1996-01-02,,active
-PEG,,,COMMON,Unknown,0.0,1996-01-02,,active
+PAYX,,,COMMON,Industrials,0.0,1998-10-01,,active
+PCAR,,,COMMON,Industrials,0.0,1996-01-02,,active
+PCG,,,COMMON,Utilities,0.0,1996-01-02,,active
+PEG,,,COMMON,Utilities,0.0,1996-01-02,,active
 PEP,PepsiCo Inc.,NASDAQ,COMMON,Consumer Staples,230000000000,1965-01-01,,active
-PFE,Pfizer Inc.,NYSE,COMMON,Healthcare,150000000000,1972-01-01,,active
-PFG,,,COMMON,Unknown,0.0,2002-07-22,,active
+PFE,Pfizer Inc.,NYSE,COMMON,Health Care,150000000000,1972-01-01,,active
+PFG,,,COMMON,Financials,0.0,2002-07-22,,active
 PG,Procter & Gamble,NYSE,COMMON,Consumer Staples,380000000000,1950-01-01,,active
-PGR,,,COMMON,Unknown,0.0,1997-08-04,,active
-PH,,,COMMON,Unknown,0.0,1996-01-02,,active
-PHM,,,COMMON,Unknown,0.0,1996-01-02,,active
-PKG,,,COMMON,Unknown,0.0,2017-07-26,,active
+PGR,,,COMMON,Financials,0.0,1997-08-04,,active
+PH,,,COMMON,Industrials,0.0,1996-01-02,,active
+PHM,,,COMMON,Consumer Discretionary,0.0,1996-01-02,,active
+PKG,,,COMMON,Materials,0.0,2017-07-26,,active
 PLD,Prologis Inc.,NYSE,COMMON,Real Estate,110000000000,1997-11-21,,active
-PLTR,Palantir Technologies,NASDAQ,COMMON,Technology,90000000000,2020-09-30,,active
-PM,,,COMMON,Unknown,0.0,2008-03-31,,active
-PNC,,,COMMON,Unknown,0.0,1996-01-02,,active
-PNR,,,COMMON,Unknown,0.0,2012-10-01,,active
-PNW,,,COMMON,Unknown,0.0,1999-10-04,,active
-PODD,,,COMMON,Unknown,0.0,2023-03-15,,active
+PLTR,Palantir Technologies,NASDAQ,COMMON,Information Technology,90000000000,2020-09-30,,active
+PM,,,COMMON,Consumer Staples,0.0,2008-03-31,,active
+PNC,,,COMMON,Financials,0.0,1996-01-02,,active
+PNR,,,COMMON,Industrials,0.0,2012-10-01,,active
+PNW,,,COMMON,Utilities,0.0,1999-10-04,,active
+PODD,,,COMMON,Health Care,0.0,2023-03-15,,active
 POOL,,,COMMON,Unknown,0.0,2020-10-07,,active
-PPG,,,COMMON,Unknown,0.0,1996-01-02,,active
-PPL,,,COMMON,Unknown,0.0,1996-01-02,,active
-PRU,,,COMMON,Unknown,0.0,2002-07-22,,active
-PSA,,,COMMON,Unknown,0.0,2005-08-19,,active
-PSKY,,,COMMON,Unknown,0.0,2025-08-08,,active
-PSX,,,COMMON,Unknown,0.0,2012-05-01,,active
-PTC,,,COMMON,Unknown,0.0,1997-04-03,,active
-PWR,,,COMMON,Unknown,0.0,2009-07-01,,active
+PPG,,,COMMON,Materials,0.0,1996-01-02,,active
+PPL,,,COMMON,Utilities,0.0,1996-01-02,,active
+PRU,,,COMMON,Financials,0.0,2002-07-22,,active
+PSA,,,COMMON,Real Estate,0.0,2005-08-19,,active
+PSKY,,,COMMON,Communication Services,0.0,2025-08-08,,active
+PSX,,,COMMON,Energy,0.0,2012-05-01,,active
+PTC,,,COMMON,Information Technology,0.0,1997-04-03,,active
+PWR,,,COMMON,Industrials,0.0,2009-07-01,,active
 PYPL,PayPal Holdings,NASDAQ,COMMON,Financials,75000000000,2015-07-06,,active
-Q,,,COMMON,Unknown,0.0,2000-07-06,,active
-QCOM,Qualcomm Inc.,NASDAQ,COMMON,Technology,180000000000,1991-12-13,,active
-RCL,,,COMMON,Unknown,0.0,2014-12-05,,active
-REG,,,COMMON,Unknown,0.0,2017-03-02,,active
-REGN,,,COMMON,Unknown,0.0,2013-05-01,,active
-RF,,,COMMON,Unknown,0.0,1998-08-28,,active
-RJF,,,COMMON,Unknown,0.0,2017-03-20,,active
-RL,,,COMMON,Unknown,0.0,2007-02-02,,active
-RMD,,,COMMON,Unknown,0.0,2017-07-26,,active
-ROK,,,COMMON,Unknown,0.0,1996-01-02,,active
-ROL,,,COMMON,Unknown,0.0,2018-10-01,,active
-ROP,,,COMMON,Unknown,0.0,2009-12-23,,active
-ROST,,,COMMON,Unknown,0.0,2009-12-21,,active
-RSG,,,COMMON,Unknown,0.0,2008-12-05,,active
+Q,,,COMMON,Information Technology,0.0,2000-07-06,,active
+QCOM,Qualcomm Inc.,NASDAQ,COMMON,Information Technology,180000000000,1991-12-13,,active
+RCL,,,COMMON,Consumer Discretionary,0.0,2014-12-05,,active
+REG,,,COMMON,Real Estate,0.0,2017-03-02,,active
+REGN,,,COMMON,Health Care,0.0,2013-05-01,,active
+RF,,,COMMON,Financials,0.0,1998-08-28,,active
+RJF,,,COMMON,Financials,0.0,2017-03-20,,active
+RL,,,COMMON,Consumer Discretionary,0.0,2007-02-02,,active
+RMD,,,COMMON,Health Care,0.0,2017-07-26,,active
+ROK,,,COMMON,Industrials,0.0,1996-01-02,,active
+ROL,,,COMMON,Industrials,0.0,2018-10-01,,active
+ROP,,,COMMON,Information Technology,0.0,2009-12-23,,active
+ROST,,,COMMON,Consumer Discretionary,0.0,2009-12-21,,active
+RSG,,,COMMON,Industrials,0.0,2008-12-05,,active
 RTX,RTX Corp.,NYSE,COMMON,Industrials,180000000000,1934-01-01,,active
-RVTY,,,COMMON,Unknown,0.0,2023-05-16,,active
-SBAC,,,COMMON,Unknown,0.0,2017-09-01,,active
+RVTY,,,COMMON,Health Care,0.0,2023-05-16,,active
+SBAC,,,COMMON,Real Estate,0.0,2017-09-01,,active
 SBUX,Starbucks Corp.,NASDAQ,COMMON,Consumer Discretionary,100000000000,1992-06-26,,active
 SCHW,Charles Schwab,NYSE,COMMON,Financials,130000000000,1987-09-22,,active
 SHW,Sherwin-Williams,NYSE,COMMON,Materials,90000000000,1964-01-01,,active
-SJM,,,COMMON,Unknown,0.0,2008-11-06,,active
+SJM,,,COMMON,Consumer Staples,0.0,2008-11-06,,active
 SLB,Schlumberger,NYSE,COMMON,Energy,60000000000,1962-01-01,,active
-SMCI,,,COMMON,Unknown,0.0,2024-03-18,,active
-SNA,,,COMMON,Unknown,0.0,1996-01-02,,active
-SNDK,,,COMMON,Unknown,0.0,2006-04-20,,active
-SNOW,Snowflake Inc.,NYSE,COMMON,Technology,60000000000,2020-09-16,,active
-SNPS,Synopsys Inc.,NASDAQ,COMMON,Technology,80000000000,1992-02-01,,active
+SMCI,,,COMMON,Information Technology,0.0,2024-03-18,,active
+SNA,,,COMMON,Industrials,0.0,1996-01-02,,active
+SNDK,,,COMMON,Information Technology,0.0,2006-04-20,,active
+SNOW,Snowflake Inc.,NYSE,COMMON,Information Technology,60000000000,2020-09-16,,active
+SNPS,Synopsys Inc.,NASDAQ,COMMON,Information Technology,80000000000,1992-02-01,,active
 SO,Southern Co.,NYSE,COMMON,Utilities,95000000000,1949-01-01,,active
-SOLV,,,COMMON,Unknown,0.0,2024-04-03,,active
-SPG,,,COMMON,Unknown,0.0,2002-06-26,,active
+SOLV,,,COMMON,Health Care,0.0,2024-04-03,,active
+SPG,,,COMMON,Real Estate,0.0,2002-06-26,,active
 SPGI,S&P Global,NYSE,COMMON,Financials,150000000000,1982-01-01,,active
-SRE,,,COMMON,Unknown,0.0,1998-06-29,,active
-STE,,,COMMON,Unknown,0.0,2019-12-23,,active
-STLD,,,COMMON,Unknown,0.0,2022-12-22,,active
-STT,,,COMMON,Unknown,0.0,1997-08-18,,active
-STX,,,COMMON,Unknown,0.0,2012-07-02,,active
-STZ,,,COMMON,Unknown,0.0,2005-07-05,,active
-SW,,,COMMON,Unknown,0.0,2024-07-08,,active
-SWK,,,COMMON,Unknown,0.0,1996-01-02,,active
-SWKS,,,COMMON,Unknown,0.0,2015-03-12,,active
-SYF,,,COMMON,Unknown,0.0,2015-11-18,,active
-SYK,,,COMMON,Unknown,0.0,2000-12-12,,active
-SYY,,,COMMON,Unknown,0.0,1996-01-02,,active
+SRE,,,COMMON,Utilities,0.0,1998-06-29,,active
+STE,,,COMMON,Health Care,0.0,2019-12-23,,active
+STLD,,,COMMON,Materials,0.0,2022-12-22,,active
+STT,,,COMMON,Financials,0.0,1997-08-18,,active
+STX,,,COMMON,Information Technology,0.0,2012-07-02,,active
+STZ,,,COMMON,Consumer Staples,0.0,2005-07-05,,active
+SW,,,COMMON,Materials,0.0,2024-07-08,,active
+SWK,,,COMMON,Industrials,0.0,1996-01-02,,active
+SWKS,,,COMMON,Information Technology,0.0,2015-03-12,,active
+SYF,,,COMMON,Financials,0.0,2015-11-18,,active
+SYK,,,COMMON,Health Care,0.0,2000-12-12,,active
+SYY,,,COMMON,Consumer Staples,0.0,1996-01-02,,active
 T,AT&T Inc.,NYSE,COMMON,Communication Services,160000000000,1983-11-21,,active
-TAP,,,COMMON,Unknown,0.0,1996-01-02,,active
-TDG,,,COMMON,Unknown,0.0,2016-06-03,,active
-TDY,,,COMMON,Unknown,0.0,2020-06-22,,active
-TECH,,,COMMON,Unknown,0.0,2021-08-30,,active
-TEL,,,COMMON,Unknown,0.0,2007-07-02,,active
-TER,,,COMMON,Unknown,0.0,1999-11-15,,active
-TFC,,,COMMON,Unknown,0.0,2019-12-09,,active
-TGT,,,COMMON,Unknown,0.0,1996-01-02,,active
+TAP,,,COMMON,Consumer Staples,0.0,1996-01-02,,active
+TDG,,,COMMON,Industrials,0.0,2016-06-03,,active
+TDY,,,COMMON,Information Technology,0.0,2020-06-22,,active
+TECH,,,COMMON,Health Care,0.0,2021-08-30,,active
+TEL,,,COMMON,Information Technology,0.0,2007-07-02,,active
+TER,,,COMMON,Information Technology,0.0,1999-11-15,,active
+TFC,,,COMMON,Financials,0.0,2019-12-09,,active
+TGT,,,COMMON,Consumer Staples,0.0,1996-01-02,,active
 TJX,TJX Companies,NYSE,COMMON,Consumer Discretionary,130000000000,1987-01-01,,active
-TKO,,,COMMON,Unknown,0.0,2025-03-24,,active
-TMO,Thermo Fisher Scientific,NYSE,COMMON,Healthcare,200000000000,1980-01-01,,active
+TKO,,,COMMON,Communication Services,0.0,2025-03-24,,active
+TMO,Thermo Fisher Scientific,NYSE,COMMON,Health Care,200000000000,1980-01-01,,active
 TMUS,T-Mobile US,NASDAQ,COMMON,Communication Services,250000000000,2007-04-19,,active
-TPL,,,COMMON,Unknown,0.0,2024-11-26,,active
-TPR,,,COMMON,Unknown,0.0,2004-09-01,,active
-TRGP,,,COMMON,Unknown,0.0,2022-10-12,,active
-TRMB,,,COMMON,Unknown,0.0,2021-01-21,,active
-TROW,,,COMMON,Unknown,0.0,1999-10-13,,active
-TRV,,,COMMON,Unknown,0.0,1996-01-02,,active
-TSCO,,,COMMON,Unknown,0.0,2014-01-24,,active
+TPL,,,COMMON,Energy,0.0,2024-11-26,,active
+TPR,,,COMMON,Consumer Discretionary,0.0,2004-09-01,,active
+TRGP,,,COMMON,Energy,0.0,2022-10-12,,active
+TRMB,,,COMMON,Information Technology,0.0,2021-01-21,,active
+TROW,,,COMMON,Financials,0.0,1999-10-13,,active
+TRV,,,COMMON,Financials,0.0,1996-01-02,,active
+TSCO,,,COMMON,Consumer Discretionary,0.0,2014-01-24,,active
 TSLA,Tesla Inc.,NASDAQ,COMMON,Consumer Discretionary,800000000000,2010-06-29,,active
-TSN,,,COMMON,Unknown,0.0,2005-08-11,,active
-TT,,,COMMON,Unknown,0.0,2002-05-13,,active
-TTD,,,COMMON,Unknown,0.0,2025-07-18,,active
-TTWO,,,COMMON,Unknown,0.0,2018-03-19,,active
-TXN,Texas Instruments,NASDAQ,COMMON,Technology,170000000000,1972-01-01,,active
-TXT,,,COMMON,Unknown,0.0,1996-01-02,,active
-TYL,,,COMMON,Unknown,0.0,2020-06-22,,active
-UAL,,,COMMON,Unknown,0.0,2015-09-03,,active
-UBER,,,COMMON,Unknown,0.0,2023-10-18,,active
-UDR,,,COMMON,Unknown,0.0,2016-03-07,,active
-UHS,,,COMMON,Unknown,0.0,2014-09-22,,active
-ULTA,,,COMMON,Unknown,0.0,2016-04-18,,active
-UNH,UnitedHealth Group,NYSE,COMMON,Healthcare,500000000000,1984-10-17,,active
+TSN,,,COMMON,Consumer Staples,0.0,2005-08-11,,active
+TT,,,COMMON,Industrials,0.0,2002-05-13,,active
+TTD,,,COMMON,Communication Services,0.0,2025-07-18,,active
+TTWO,,,COMMON,Communication Services,0.0,2018-03-19,,active
+TXN,Texas Instruments,NASDAQ,COMMON,Information Technology,170000000000,1972-01-01,,active
+TXT,,,COMMON,Industrials,0.0,1996-01-02,,active
+TYL,,,COMMON,Information Technology,0.0,2020-06-22,,active
+UAL,,,COMMON,Industrials,0.0,2015-09-03,,active
+UBER,,,COMMON,Industrials,0.0,2023-10-18,,active
+UDR,,,COMMON,Real Estate,0.0,2016-03-07,,active
+UHS,,,COMMON,Health Care,0.0,2014-09-22,,active
+ULTA,,,COMMON,Consumer Discretionary,0.0,2016-04-18,,active
+UNH,UnitedHealth Group,NYSE,COMMON,Health Care,500000000000,1984-10-17,,active
 UNP,Union Pacific,NYSE,COMMON,Industrials,140000000000,1969-01-01,,active
 UPS,United Parcel Service,NYSE,COMMON,Industrials,90000000000,1999-11-10,,active
-URI,,,COMMON,Unknown,0.0,2014-09-22,,active
-USB,,,COMMON,Unknown,0.0,1996-01-02,,active
+URI,,,COMMON,Industrials,0.0,2014-09-22,,active
+USB,,,COMMON,Financials,0.0,1996-01-02,,active
 V,Visa Inc.,NYSE,COMMON,Financials,550000000000,2008-03-19,,active
-VICI,,,COMMON,Unknown,0.0,2022-06-08,,active
-VLO,,,COMMON,Unknown,0.0,2004-04-29,,active
-VLTO,,,COMMON,Unknown,0.0,2023-10-02,,active
-VMC,,,COMMON,Unknown,0.0,1999-07-01,,active
-VRSK,,,COMMON,Unknown,0.0,2015-10-08,,active
-VRSN,,,COMMON,Unknown,0.0,2006-02-01,,active
-VRTX,Vertex Pharmaceuticals,NASDAQ,COMMON,Healthcare,120000000000,1991-07-24,,active
-VST,,,COMMON,Unknown,0.0,2024-05-08,,active
-VTR,,,COMMON,Unknown,0.0,2009-03-04,,active
-VTRS,,,COMMON,Unknown,0.0,2020-11-17,,active
+VICI,,,COMMON,Real Estate,0.0,2022-06-08,,active
+VLO,,,COMMON,Energy,0.0,2004-04-29,,active
+VLTO,,,COMMON,Industrials,0.0,2023-10-02,,active
+VMC,,,COMMON,Materials,0.0,1999-07-01,,active
+VRSK,,,COMMON,Industrials,0.0,2015-10-08,,active
+VRSN,,,COMMON,Information Technology,0.0,2006-02-01,,active
+VRTX,Vertex Pharmaceuticals,NASDAQ,COMMON,Health Care,120000000000,1991-07-24,,active
+VST,,,COMMON,Utilities,0.0,2024-05-08,,active
+VTR,,,COMMON,Real Estate,0.0,2009-03-04,,active
+VTRS,,,COMMON,Health Care,0.0,2020-11-17,,active
 VZ,Verizon Communications,NYSE,COMMON,Communication Services,180000000000,1983-11-21,,active
-WAB,,,COMMON,Unknown,0.0,2019-02-27,,active
-WAT,,,COMMON,Unknown,0.0,2002-01-02,,active
-WBD,,,COMMON,Unknown,0.0,2022-04-11,,active
-WDAY,,,COMMON,Unknown,0.0,2024-12-23,,active
-WDC,,,COMMON,Unknown,0.0,2009-07-01,,active
-WEC,,,COMMON,Unknown,0.0,2008-10-31,,active
-WELL,,,COMMON,Unknown,0.0,2009-01-30,,active
+WAB,,,COMMON,Industrials,0.0,2019-02-27,,active
+WAT,,,COMMON,Health Care,0.0,2002-01-02,,active
+WBD,,,COMMON,Communication Services,0.0,2022-04-11,,active
+WDAY,,,COMMON,Information Technology,0.0,2024-12-23,,active
+WDC,,,COMMON,Information Technology,0.0,2009-07-01,,active
+WEC,,,COMMON,Utilities,0.0,2008-10-31,,active
+WELL,,,COMMON,Real Estate,0.0,2009-01-30,,active
 WFC,Wells Fargo,NYSE,COMMON,Financials,240000000000,1972-01-01,,active
-WM,,,COMMON,Unknown,0.0,1998-07-17,,active
-WMB,,,COMMON,Unknown,0.0,1996-01-02,,active
+WM,,,COMMON,Industrials,0.0,1998-07-17,,active
+WMB,,,COMMON,Energy,0.0,1996-01-02,,active
 WMT,Walmart Inc.,NYSE,COMMON,Consumer Staples,600000000000,1972-08-25,,active
-WRB,,,COMMON,Unknown,0.0,2019-12-05,,active
-WSM,,,COMMON,Unknown,0.0,2025-03-24,,active
-WST,,,COMMON,Unknown,0.0,2020-05-22,,active
-WTW,,,COMMON,Unknown,0.0,2022-01-10,,active
-WY,,,COMMON,Unknown,0.0,1996-01-02,,active
-WYNN,,,COMMON,Unknown,0.0,2008-11-14,,active
-XEL,,,COMMON,Unknown,0.0,1996-01-02,,active
+WRB,,,COMMON,Financials,0.0,2019-12-05,,active
+WSM,,,COMMON,Consumer Discretionary,0.0,2025-03-24,,active
+WST,,,COMMON,Health Care,0.0,2020-05-22,,active
+WTW,,,COMMON,Financials,0.0,2022-01-10,,active
+WY,,,COMMON,Real Estate,0.0,1996-01-02,,active
+WYNN,,,COMMON,Consumer Discretionary,0.0,2008-11-14,,active
+XEL,,,COMMON,Utilities,0.0,1996-01-02,,active
 XOM,Exxon Mobil,NYSE,COMMON,Energy,470000000000,1980-01-02,,active
-XYL,,,COMMON,Unknown,0.0,2011-11-01,,active
-XYZ,,,COMMON,Unknown,0.0,2025-07-23,,active
-YUM,,,COMMON,Unknown,0.0,1997-10-07,,active
-ZBH,,,COMMON,Unknown,0.0,2001-08-07,,active
-ZBRA,,,COMMON,Unknown,0.0,2019-12-23,,active
-ZTS,,,COMMON,Unknown,0.0,2013-06-24,,active
+XYL,,,COMMON,Industrials,0.0,2011-11-01,,active
+XYZ,,,COMMON,Financials,0.0,2025-07-23,,active
+YUM,,,COMMON,Consumer Discretionary,0.0,1997-10-07,,active
+ZBH,,,COMMON,Health Care,0.0,2001-08-07,,active
+ZBRA,,,COMMON,Information Technology,0.0,2019-12-23,,active
+ZTS,,,COMMON,Health Care,0.0,2013-06-24,,active
 # --- Delisted / acquired / bankrupt (kept for survivorship-bias-free research) ---
 TWTR,Twitter Inc.,NYSE,COMMON,Communication Services,41000000000,2013-11-07,2022-10-28,acquired
 ATVI,Activision Blizzard,NASDAQ,COMMON,Communication Services,69000000000,1986-06-09,2023-10-13,acquired
-VMW,VMware Inc.,NYSE,COMMON,Technology,61000000000,2007-08-14,2023-11-22,acquired
-XLNX,Xilinx Inc.,NASDAQ,COMMON,Technology,48000000000,1990-06-12,2022-02-14,acquired
+VMW,VMware Inc.,NYSE,COMMON,Information Technology,61000000000,2007-08-14,2023-11-22,acquired
+XLNX,Xilinx Inc.,NASDAQ,COMMON,Information Technology,48000000000,1990-06-12,2022-02-14,acquired
 SGEN,Seagen Inc.,NASDAQ,COMMON,Health Care,43000000000,2001-03-08,2023-12-14,acquired
 ABMD,Abiomed Inc.,NASDAQ,COMMON,Health Care,17000000000,1987-07-22,2022-12-22,acquired
-CTXS,Citrix Systems,NASDAQ,COMMON,Technology,16000000000,1995-12-08,2022-09-30,acquired
+CTXS,Citrix Systems,NASDAQ,COMMON,Information Technology,16000000000,1995-12-08,2022-09-30,acquired
 ZNGA,Zynga Inc.,NASDAQ,COMMON,Communication Services,12000000000,2011-12-16,2022-05-23,acquired
-NUAN,Nuance Communications,NASDAQ,COMMON,Technology,19000000000,1995-04-25,2022-03-04,acquired
-MXIM,Maxim Integrated,NASDAQ,COMMON,Technology,26000000000,1988-02-26,2021-08-26,acquired
+NUAN,Nuance Communications,NASDAQ,COMMON,Information Technology,19000000000,1995-04-25,2022-03-04,acquired
+MXIM,Maxim Integrated,NASDAQ,COMMON,Information Technology,26000000000,1988-02-26,2021-08-26,acquired
 ALXN,Alexion Pharmaceuticals,NASDAQ,COMMON,Health Care,39000000000,1996-02-27,2021-07-21,acquired
 TIF,Tiffany & Co.,NYSE,COMMON,Consumer Discretionary,16000000000,1987-05-15,2021-01-07,acquired
 INFO,IHS Markit,NYSE,COMMON,Industrials,44000000000,2014-06-19,2022-02-28,acquired
 CERN,Cerner Corp.,NASDAQ,COMMON,Health Care,23000000000,1986-12-05,2022-06-08,acquired
 DISCA,Discovery Inc.,NASDAQ,COMMON,Communication Services,15000000000,2008-09-18,2022-04-08,merged
 PXD,Pioneer Natural Resources,NYSE,COMMON,Energy,56000000000,1997-08-07,2024-05-03,acquired
-SPLK,Splunk Inc.,NASDAQ,COMMON,Technology,28000000000,2012-04-19,2024-03-18,acquired
-ANSS,Ansys Inc.,NASDAQ,COMMON,Technology,30000000000,1996-06-20,2025-07-17,acquired
+SPLK,Splunk Inc.,NASDAQ,COMMON,Information Technology,28000000000,2012-04-19,2024-03-18,acquired
+ANSS,Ansys Inc.,NASDAQ,COMMON,Information Technology,30000000000,1996-06-20,2025-07-17,acquired
 SIVB,SVB Financial Group,NASDAQ,COMMON,Financials,16000000000,1987-04-03,2023-03-10,delisted
 FRC,First Republic Bank,NYSE,COMMON,Financials,20000000000,2010-12-08,2023-05-01,delisted
 SBNY,Signature Bank,NASDAQ,COMMON,Financials,11000000000,2004-03-23,2023-03-12,delisted
