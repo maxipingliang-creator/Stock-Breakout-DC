@@ -9,6 +9,11 @@ data:
   interval: "1d"
   # How much history to keep warm in the cache.
   history_days: 800
+  # Earliest date to back-fill the benchmark (SPY) to. The benchmark drives the
+  # walk-forward calendar + benchmark-relative metrics, so its history must span
+  # the full backtest era — if a truncated first fetch left it short, the next
+  # collection self-heals the gap. Universe names stay incremental (tail-only).
+  history_start: "2018-01-01"
 
 database:
   # SQLite for dev; set a postgresql:// URL via SBS_DB_URL for production.

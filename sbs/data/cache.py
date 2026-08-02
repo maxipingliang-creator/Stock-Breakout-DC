@@ -64,10 +64,23 @@ class DataCache:
         merged = pd.concat([cached, fresh])
         return merged[~merged.index.duplicated(keep="last")].sort_index()
 
-    def update_symbol(self, symbol: str, end: date | None = None) -> pd.DataFrame:
+    def update_symbol(self, symbol: str, end: date | None = None,
+                      start: date | None = None) -> pd.DataFrame:
         """Refresh one symbol, fetching only the missing tail. Returns full series.
-        The last cached day is re-fetched (start=last, inclusive) in case it was provisional."""
+        The last cached day is re-fetched (start=last, inclusive) in case it was provisional.
+
+        When ``start`` is given and the cache begins materially later than it (a truncated
+        first fetch), the earlier ``[start, cache_first]`` gap is **back-filled** as well:
+        incremental updates otherwise only ever extend the *tail* forward, so a short series
+        can never heal. Used for the benchmark, whose full history the walk-forward calendar
+        depends on."""
         cached = self.load(symbol)
+        if start is not None and not cached.empty:
+            first = cached.index.min().date()
+            if (first - start).days > 5:      # cache starts materially after `start` → backfill
+                earlier = self.provider.get_history(symbol, start, first, self.interval)
+                if earlier is not None and not earlier.empty:
+                    cached = self._merge(earlier, cached)   # prepend; existing bars win on overlap
         fresh = self.provider.get_history(symbol, self._last(cached), end, self.interval)
         merged = self._merge(cached, fresh)
         if not merged.empty:

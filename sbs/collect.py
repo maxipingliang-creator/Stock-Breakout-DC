@@ -77,17 +77,20 @@ def update_data(
             sec_repo.upsert_many(securities)
 
     symbols = [s.symbol for s in securities]
-    if benchmark:
-        bench = cfg.get("regime.benchmark", "SPY")
-        # Fetched via update_symbols even on a cold cache (no pre-load needed).
-        if bench and bench not in symbols:
-            symbols.append(bench)
 
     end = _as_of(as_of)
     if as_of is None and not is_trading_day(md.provider, end):
         print(f"Market closed {end} (not a trading day) — skipping collection.")
         return
     dv = md.cache.update_symbols(symbols, end=end, universe_version=cfg.universe_version)
+    # The benchmark is fetched on its own with a back-fill start, so a truncated first
+    # fetch self-heals to the full history the walk-forward calendar needs (the universe
+    # stays incremental / tail-only above).
+    if benchmark:
+        bench = cfg.get("regime.benchmark", "SPY")
+        if bench:
+            hs = cfg.get("data.history_start")
+            md.cache.update_symbol(bench, end=end, start=date.fromisoformat(hs) if hs else None)
     version_id = DataVersionRepository(conn).add(dv)
 
     # Persist point-in-time fundamentals where the provider supplies them.
