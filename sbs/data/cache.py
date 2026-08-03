@@ -69,18 +69,22 @@ class DataCache:
         """Refresh one symbol, fetching only the missing tail. Returns full series.
         The last cached day is re-fetched (start=last, inclusive) in case it was provisional.
 
-        When ``start`` is given and the cache begins materially later than it (a truncated
-        first fetch), the earlier ``[start, cache_first]`` gap is **back-filled** as well:
-        incremental updates otherwise only ever extend the *tail* forward, so a short series
-        can never heal. Used for the benchmark, whose full history the walk-forward calendar
-        depends on."""
+        When ``start`` is given and the cached series is **incomplete** over ``[start, last]``
+        — a truncated first fetch *or* an interior hole — the whole span is refetched and
+        merged (the fresh copy wins on overlap, so it fills the missing prefix **and** any
+        internal gaps). Incremental updates otherwise only ever extend the *tail* forward, so
+        a short/holey series never heals. Used for the benchmark, whose full, gap-free history
+        the walk-forward calendar depends on (cheap — a single symbol). Assumes the provider
+        can serve back to ``start`` (true for Alpaca's SPY); if it genuinely can't, the span is
+        refetched each run (acceptable for one symbol — see the cache-hardening TODO)."""
         cached = self.load(symbol)
         if start is not None and not cached.empty:
-            first = cached.index.min().date()
-            if (first - start).days > 5:      # cache starts materially after `start` → backfill
-                earlier = self.provider.get_history(symbol, start, first, self.interval)
-                if earlier is not None and not earlier.empty:
-                    cached = self._merge(earlier, cached)   # prepend; existing bars win on overlap
+            hi = cached.index.max()
+            expected = len(pd.bdate_range(pd.Timestamp(start), hi))
+            if expected and len(cached) < 0.9 * expected:     # truncated or internally gappy
+                span = self.provider.get_history(symbol, start, hi.date(), self.interval)
+                if span is not None and not span.empty:
+                    cached = self._merge(cached, span)         # fresh fills prefix + interior holes
         fresh = self.provider.get_history(symbol, self._last(cached), end, self.interval)
         merged = self._merge(cached, fresh)
         if not merged.empty:
