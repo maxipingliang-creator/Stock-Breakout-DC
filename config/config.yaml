@@ -9,11 +9,12 @@ data:
   interval: "1d"
   # How much history to keep warm in the cache.
   history_days: 800
-  # Earliest date to back-fill the benchmark (SPY) to. The benchmark drives the
-  # walk-forward calendar + benchmark-relative metrics, so its history must span
-  # the full backtest era — if a truncated first fetch left it short, the next
-  # collection self-heals the gap. Universe names stay incremental (tail-only).
-  history_start: "2018-01-01"
+  # Benchmark back-fill target (the benchmark self-heals a truncated/gappy cache back to
+  # this date via DataCache.update_symbol). Left UNSET: our provider (Alpaca's free feed)
+  # floors at ~2020-07 (confirmed cache-wide 2026-08-04), so there is nothing earlier to
+  # pull and a non-null value just triggers a pointless full-span refetch every collection.
+  # Set an earlier date ONLY alongside a deep-history provider (yfinance/stooq) that serves it.
+  history_start: null
 
 database:
   # SQLite for dev; set a postgresql:// URL via SBS_DB_URL for production.
