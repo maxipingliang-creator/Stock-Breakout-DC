@@ -281,6 +281,35 @@ class SignalRepository:
         return {"n": int(row["n"]), "win_pct": round((row["win"] or 0.0) * 100, 0),
                 "avg_r": round(row["avg_r"] or 0.0, 2), "horizon": used}
 
+    def resolved_record(self, strategy: str, r_floor: float = -1.0, r_cap: float = 2.0) -> dict | None:
+        """Realized-**lifecycle** record: the actual stop/target/expiry outcomes (no fixed
+        horizon), complementing ``forward_record``'s 20-day mark. Each resolved signal's R is
+        the realized ``(lifecycle_price − entry) / (entry − stop)``, clamped to
+        ``[r_floor, r_cap]``. Also returns how many signals are still ``open`` — because the
+        resolved set is **censored** (slow winners resolve later than fast stops), so a low
+        early win% is partly maturation, not necessarily edge decay. The brake still keys off
+        the (less-censored) ``forward_record``; this is a decision-support readout only.
+        Returns None when nothing has resolved for the strategy."""
+        rexpr = "(l.price - s.entry_price) / (s.entry_price - s.stop_price)"
+        clamp = f"CASE WHEN {rexpr} < ? THEN ? WHEN {rexpr} > ? THEN ? ELSE {rexpr} END"
+        sql = (
+            "SELECT COUNT(*) n, "
+            "AVG(CASE WHEN l.price > s.entry_price THEN 1.0 ELSE 0.0 END) win, "
+            f"AVG({clamp}) avg_r "
+            "FROM trade_lifecycle l JOIN signals s ON s.signal_id = l.signal_id "
+            "WHERE s.strategy = ? AND s.entry_price > s.stop_price AND l.price IS NOT NULL "
+            "AND l.state IN ('target_hit', 'stop_hit', 'expired')"
+        )
+        cp = (r_floor, r_floor, r_cap, r_cap)        # clamp params (repeats the R expression)
+        row = self.db.query_one(sql, (*cp, strategy))
+        if not row or not row.get("n"):
+            return None
+        op = self.db.query_one(
+            "SELECT COUNT(*) n FROM trade_lifecycle l JOIN signals s ON s.signal_id = l.signal_id "
+            "WHERE s.strategy = ? AND l.state = 'open'", (strategy,))
+        return {"n": int(row["n"]), "win_pct": round((row["win"] or 0.0) * 100, 0),
+                "avg_r": round(row["avg_r"] or 0.0, 2), "open": int((op or {}).get("n") or 0)}
+
 
 class BacktestRepository:
     def __init__(self, db: Database):
