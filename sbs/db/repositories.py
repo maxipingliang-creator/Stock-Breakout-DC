@@ -235,6 +235,27 @@ class SignalRepository:
     def performance_rows(self) -> list[dict]:
         return self.db.query("SELECT * FROM signal_performance")
 
+    def tracked_signal_ids(self) -> set[int]:
+        """signal_ids that already have a lifecycle row — i.e. have been tracked at
+        least once. Lets the tracker skip re-processing matured signals that are
+        already recorded, while still tracking any old signal that never was."""
+        return {int(r["signal_id"])
+                for r in self.db.query("SELECT signal_id FROM trade_lifecycle")}
+
+    def lifecycle_state_counts(self, strategy: str | None = None) -> dict[str, int]:
+        """Current lifecycle-state distribution across all tracked signals (one row
+        per signal in trade_lifecycle). Read straight from the DB so it covers the
+        whole book even when the tracker only recomputes the recent window."""
+        if strategy is None:
+            rows = self.db.query(
+                "SELECT state, COUNT(*) n FROM trade_lifecycle GROUP BY state")
+        else:
+            rows = self.db.query(
+                "SELECT l.state, COUNT(*) n FROM trade_lifecycle l "
+                "JOIN signals s ON s.signal_id = l.signal_id "
+                "WHERE s.strategy = ? GROUP BY l.state", (strategy,))
+        return {r["state"]: int(r["n"]) for r in rows}
+
     def latest_date(self) -> str | None:
         """Most recent ``signal_date`` in the table (the latest scan)."""
         row = self.db.query_one("SELECT MAX(signal_date) d FROM signals")
