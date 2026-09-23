@@ -208,7 +208,12 @@ class SignalRepository:
         return self.db.query("SELECT * FROM signals ORDER BY signal_date")
 
     def set_performance(self, signal_id: int, horizon: int, eval_date: str,
-                        price: float, return_pct: float, r_multiple: float) -> None:
+                        price: float, return_pct: float, r_multiple: float,
+                        commit: bool = True) -> None:
+        # ``commit=False`` lets a caller batch many writes into one transaction and
+        # commit() once at the end. The daily tracker rewrites ~14.5k perf+lifecycle
+        # rows per run; a commit per write is a per-row fsync (the cause of track's
+        # ~815s), so it defers them all into a single commit.
         self.db.execute(
             """INSERT INTO signal_performance
                    (signal_id,horizon_days,eval_date,price,return_pct,r_multiple)
@@ -218,10 +223,12 @@ class SignalRepository:
                    return_pct=excluded.return_pct, r_multiple=excluded.r_multiple""",
             (signal_id, horizon, eval_date, price, return_pct, r_multiple),
         )
-        self.db.commit()
+        if commit:
+            self.db.commit()
 
     def set_lifecycle(self, signal_id: int, state: str, as_of_date: str,
-                     price: float | None = None, note: str = "") -> None:
+                     price: float | None = None, note: str = "",
+                     commit: bool = True) -> None:
         self.db.execute(
             """INSERT INTO trade_lifecycle (signal_id,state,as_of_date,price,note)
                VALUES (?,?,?,?,?)
@@ -230,6 +237,11 @@ class SignalRepository:
                    price=excluded.price, note=excluded.note""",
             (signal_id, state, as_of_date, price, note),
         )
+        if commit:
+            self.db.commit()
+
+    def commit(self) -> None:
+        """Flush writes made with ``commit=False`` (one fsync for the whole batch)."""
         self.db.commit()
 
     def performance_rows(self) -> list[dict]:
