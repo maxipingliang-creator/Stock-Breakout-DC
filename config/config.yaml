@@ -1,7 +1,7 @@
 # Main platform configuration.
 # `config_version` is stamped onto every signal/backtest for reproducibility.
 # Bump it whenever a change here could alter results.
-config_version: "2026.06.0"
+config_version: "2026.09.0"
 
 data:
   default_provider: synthetic       # synthetic | yfinance | alpaca | stooq
@@ -33,12 +33,17 @@ backtest:
   min_commission_per_trade: 0.0     # broker per-trade commission floor (0 = none)
   slippage_bps: 5                   # basis points applied to fills
   fill_model: next_open             # enter on the bar AFTER the signal
-  gap_max_r: 1.0                    # gap guard (fill model, in R = entry−stop): skip an entry
+  gap_max_r: 1.0                    # gap guard (fill model, in R = entry−stop): skip a fill
                                     #   whose next-open gaps more than this×R above the signal
-                                    #   entry — don't chase. Shared by the backtester AND the live
-                                    #   planner so paper/backtest fill the SAME set. 1.0 adopted from
-                                    #   the survivorship-free A/B (2026-06): +0.28R→+0.32R, maxDD
-                                    #   −10.4%→−9.5% vs no guard; 0.5 was too tight, 0 = off.
+                                    #   price. Shared by the simulator and the order layer so
+                                    #   both fill the SAME set. 0 = off. (Chosen 2026-06; the
+                                    #   comparison is in the private docs.)
+  # Position-scaling knobs, in R units (R = entry-stop). Read by the simulator and the order
+  # layer from this one place so both size the same way. 0/unset = off. NOTE: this file is
+  # vendored to the public data repo — keep these comments mechanical; the rationale and any
+  # measured results belong in the private docs.
+  partial_r: 1.0
+  partial_frac: 0.5                 # fraction of a position scaled out at partial_r (int(qty*frac))
   risk_free_rate: 0.0               # annualized; excess-return basis for Sharpe/Sortino
 
 walkforward:
