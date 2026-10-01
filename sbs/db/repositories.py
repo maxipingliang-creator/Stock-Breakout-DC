@@ -274,7 +274,8 @@ class SignalRepository:
         return row["d"] if row and row.get("d") else None
 
     def forward_record(self, strategy: str, horizon: int = 20,
-                       r_floor: float = -1.0, r_cap: float = 2.0) -> dict | None:
+                       r_floor: float = -1.0, r_cap: float = 2.0,
+                       window: int | None = None) -> dict | None:
         """Realized forward record for a strategy's tracked signals: count, win%,
         and avg R-multiple at ``horizon`` days. Falls back to the most mature
         horizon that has data when ``horizon`` isn't realized yet (recent signals).
@@ -287,19 +288,32 @@ class SignalRepository:
         name that keeps falling marks e.g. −2.5R even though a real stop exits at −1R).
         Without the clamp one un-tradeable outlier can swing this gate (it suspends a
         strategy on a negative live record) far past anything actually realizable. Win%
-        keys off the raw sign, which the clamp never flips."""
-        clamp = ("CASE WHEN p.r_multiple < ? THEN ? WHEN p.r_multiple > ? THEN ? "
-                 "ELSE p.r_multiple END")
-        sql = (
-            "SELECT COUNT(*) n, "
-            "AVG(CASE WHEN p.r_multiple > 0 THEN 1.0 ELSE 0.0 END) win, "
-            f"AVG({clamp}) avg_r "
-            "FROM signal_performance p JOIN signals s ON s.signal_id = p.signal_id "
+        keys off the raw sign, which the clamp never flips.
+
+        ``window`` averages only the **most recent N tracked signals** instead of every one
+        since inception. This matters because the gate is one-directional: a cumulative mean
+        carries every past signal forever, so once it is far enough below zero it can take
+        multiples of the strategy's entire live history to climb back — the gate latches shut
+        even if the strategy returns to form. A window tracks the current regime instead.
+        Counted in *signals*, not days, so a month with fewer scans doesn't silently widen it.
+        ``None``/0 keeps the cumulative behaviour."""
+        inner = (
+            "SELECT p.r_multiple AS r FROM signal_performance p "
+            "JOIN signals s ON s.signal_id = p.signal_id "
             "WHERE s.strategy = ? AND p.r_multiple IS NOT NULL AND p.horizon_days = ?"
         )
+        tail = " ORDER BY s.signal_date DESC, p.signal_id DESC LIMIT ?" if window else ""
+        clamp = "CASE WHEN q.r < ? THEN ? WHEN q.r > ? THEN ? ELSE q.r END"
+        # Clamp placeholders bind first: they appear in the SELECT, ahead of the subquery.
+        sql = (f"SELECT COUNT(*) n, AVG(CASE WHEN q.r > 0 THEN 1.0 ELSE 0.0 END) win, "
+               f"AVG({clamp}) avg_r FROM ({inner}{tail}) q")
         cp = (r_floor, r_floor, r_cap, r_cap)        # clamp params: < floor -> floor, > cap -> cap
-        row = self.db.query_one(sql, (*cp, strategy, horizon))
-        used = horizon
+
+        def _at(horizon_days: int):
+            args = [*cp, strategy, horizon_days] + ([int(window)] if window else [])
+            return self.db.query_one(sql, tuple(args))
+
+        row, used = _at(horizon), horizon
         if not row or not row.get("n"):
             mx = self.db.query_one(
                 "SELECT MAX(p.horizon_days) h FROM signal_performance p "
@@ -308,11 +322,14 @@ class SignalRepository:
             if not mx or mx.get("h") is None:
                 return None
             used = int(mx["h"])
-            row = self.db.query_one(sql, (*cp, strategy, used))
+            row = _at(used)
         if not row or not row.get("n"):
             return None
-        return {"n": int(row["n"]), "win_pct": round((row["win"] or 0.0) * 100, 0),
-                "avg_r": round(row["avg_r"] or 0.0, 2), "horizon": used}
+        out = {"n": int(row["n"]), "win_pct": round((row["win"] or 0.0) * 100, 0),
+               "avg_r": round(row["avg_r"] or 0.0, 2), "horizon": used}
+        if window:
+            out["window"] = int(window)
+        return out
 
     def resolved_record(self, strategy: str, r_floor: float = -1.0, r_cap: float = 2.0) -> dict | None:
         """Realized-**lifecycle** record: the actual stop/target/expiry outcomes (no fixed
