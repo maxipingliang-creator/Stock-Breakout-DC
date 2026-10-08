@@ -84,7 +84,19 @@ def standardize_ohlcv(df: pd.DataFrame) -> pd.DataFrame:
     keep = OHLCV_COLUMNS + (["adj_close"] if "adj_close" in out.columns else [])
     out = out[keep]
     out = out[~out.index.duplicated(keep="last")].sort_index()
-    return out.dropna(subset=["close"])
+    out = out.dropna(subset=["close"])
+
+    # A daily bar with zero volume means nothing traded, so it carries no price — yet providers
+    # emit one anyway, repeating a stale value. In the production cache that was 989 bars across
+    # 18 symbols: SBNY carried at a fixed price for 509 sessions after the bank failed and INFO
+    # for 383 after it was delisted (both looking alive long past their last trade), and TPL with
+    # 74 bars stuck at ~250 while it actually traded 145-225 — fabricating round trips of up to
+    # +78.9% that set a false Donchian high and then collapse. Dropping them is the honest read:
+    # no trade, no bar. A missing (NaN) volume is left alone — that is an absent field, not a
+    # no-trade day. Applied here, so it also heals already-cached files on load.
+    if "volume" in out.columns:
+        out = out[~(out["volume"].notna() & (out["volume"] <= 0))]
+    return out
 
 
 class DataProvider(ABC):
