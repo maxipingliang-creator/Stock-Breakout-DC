@@ -1,9 +1,10 @@
 symbol,name,exchange,security_type,sector,market_cap,listing_date,delisting_date,status
-# Live-scan + DC-collection roster: the current S&P 500 (505 active)
-# + 23 curated delisted/acquired names (kept so the default
-# backtest still sees survivorship losers). Built by scripts/build_live_universe.py
-# from config/sp500_universe.csv (current members) merged with the hand-curated
-# metadata below (which wins on overlap). New members carry sparse metadata
+# Live-scan + DC-collection roster: 520 active = 502 current
+# S&P 500 members + 18 retained ex-members (this merge never
+# drops a name), plus 23 curated delisted/acquired names (kept so the
+# default backtest still sees survivorship losers). Built by
+# scripts/build_live_universe.py from config/sp500_universe.csv merged with the
+# hand-curated metadata below (which wins on overlap). New members carry sparse metadata
 # (empty exchange / Unknown sector / market_cap 0) — the universe builder defers
 # on those; the $-volume liquidity filter governs. Re-run the script to refresh.
 A,,,COMMON,Health Care,0.0,2000-06-05,,active
@@ -73,6 +74,7 @@ BKR,,,COMMON,Energy,0.0,2019-10-18,,active
 BLDR,,,COMMON,Industrials,0.0,2023-10-18,,active
 BLK,BlackRock Inc.,NYSE,COMMON,Financials,150000000000,1999-10-01,,active
 BMY,Bristol-Myers Squibb,NYSE,COMMON,Health Care,100000000000,1933-01-01,,active
+BNY,,,COMMON,Unknown,0.0,2026-05-21,,active
 BR,,,COMMON,Industrials,0.0,1996-01-02,,active
 BRK.B,,,COMMON,Unknown,0.0,2010-02-16,,active
 BRO,,,COMMON,Financials,0.0,2021-09-20,,active
@@ -83,6 +85,7 @@ C,Citigroup Inc.,NYSE,COMMON,Financials,130000000000,1977-01-01,,active
 CAG,,,COMMON,Unknown,0.0,1996-01-02,,active
 CAH,,,COMMON,Health Care,0.0,1997-05-27,,active
 CARR,,,COMMON,Industrials,0.0,2020-04-03,,active
+CASY,,,COMMON,Unknown,0.0,2026-04-09,,active
 CAT,Caterpillar Inc.,NYSE,COMMON,Industrials,180000000000,1929-12-02,,active
 CB,,,COMMON,Financials,0.0,1996-01-02,,active
 CBOE,,,COMMON,Financials,0.0,2017-03-01,,active
@@ -98,6 +101,7 @@ CHD,,,COMMON,Consumer Staples,0.0,2015-12-29,,active
 CHRW,,,COMMON,Industrials,0.0,2007-03-02,,active
 CHTR,,,COMMON,Communication Services,0.0,2016-09-08,,active
 CI,,,COMMON,Health Care,0.0,1996-01-02,,active
+CIEN,,,COMMON,Unknown,0.0,2001-08-30,,active
 CINF,,,COMMON,Financials,0.0,1997-12-18,,active
 CL,Colgate-Palmolive,NYSE,COMMON,Consumer Staples,75000000000,1950-01-01,,active
 CLX,,,COMMON,Consumer Staples,0.0,1996-01-02,,active
@@ -109,6 +113,7 @@ CMS,,,COMMON,Utilities,0.0,1999-05-03,,active
 CNC,,,COMMON,Health Care,0.0,1997-01-15,,active
 CNP,,,COMMON,Utilities,0.0,1996-01-02,,active
 COF,,,COMMON,Financials,0.0,1998-07-01,,active
+COHR,,,COMMON,Unknown,0.0,2026-03-23,,active
 COIN,,,COMMON,Financials,0.0,2025-05-19,,active
 COO,,,COMMON,Health Care,0.0,2016-09-23,,active
 COP,ConocoPhillips,NYSE,COMMON,Energy,120000000000,1982-01-01,,active
@@ -160,6 +165,7 @@ DVN,,,COMMON,Energy,0.0,2000-08-30,,active
 DXCM,,,COMMON,Health Care,0.0,2020-05-12,,active
 EA,,,COMMON,Communication Services,0.0,2002-07-22,,active
 EBAY,,,COMMON,Consumer Discretionary,0.0,2002-07-22,,active
+ECHO,,,COMMON,Unknown,0.0,2026-06-24,,active
 ECL,,,COMMON,Materials,0.0,1996-01-02,,active
 ED,,,COMMON,Utilities,0.0,1996-01-02,,active
 EFX,,,COMMON,Industrials,0.0,1997-06-19,,active
@@ -192,13 +198,16 @@ FAST,,,COMMON,Industrials,0.0,2008-09-15,,active
 FCX,Freeport-McMoRan,NYSE,COMMON,Materials,60000000000,1995-07-01,,active
 FDS,,,COMMON,Financials,0.0,2021-12-20,,active
 FDX,,,COMMON,Industrials,0.0,1996-01-02,,active
+FDXF,,,COMMON,Unknown,0.0,2026-06-01,,active
 FE,,,COMMON,Utilities,0.0,1996-01-02,,active
+FERG,,,COMMON,Unknown,0.0,2026-08-05,,active
 FFIV,,,COMMON,Information Technology,0.0,2010-12-20,,active
 FICO,,,COMMON,Information Technology,0.0,2023-03-20,,active
 FIS,,,COMMON,Financials,0.0,2006-11-10,,active
 FISV,,,COMMON,Financials,0.0,2001-04-02,,active
 FITB,,,COMMON,Financials,0.0,1996-03-08,,active
 FIX,,,COMMON,Industrials,0.0,2025-12-22,,active
+FLEX,,,COMMON,Unknown,0.0,2026-06-22,,active
 FOX,,,COMMON,Communication Services,0.0,2015-09-21,,active
 FOXA,,,COMMON,Communication Services,0.0,2004-12-20,,active
 FRT,,,COMMON,Real Estate,0.0,2016-02-01,,active
@@ -234,6 +243,7 @@ HII,,,COMMON,Industrials,0.0,2018-01-03,,active
 HLT,,,COMMON,Consumer Discretionary,0.0,1996-01-02,,active
 HOLX,,,COMMON,Unknown,0.0,2016-03-30,,active
 HON,Honeywell International,NASDAQ,COMMON,Industrials,140000000000,1985-01-01,,active
+HONA,,,COMMON,Unknown,0.0,2026-06-29,,active
 HOOD,,,COMMON,Financials,0.0,2025-09-22,,active
 HPE,,,COMMON,Information Technology,0.0,2015-11-02,,active
 HPQ,,,COMMON,Information Technology,0.0,1996-01-02,,active
@@ -288,6 +298,7 @@ LH,,,COMMON,Health Care,0.0,2004-11-01,,active
 LHX,,,COMMON,Industrials,0.0,2019-06-01,,active
 LII,,,COMMON,Industrials,0.0,2024-12-23,,active
 LIN,Linde plc,NASDAQ,COMMON,Materials,220000000000,1992-01-01,,active
+LITE,,,COMMON,Unknown,0.0,2026-03-23,,active
 LLY,Eli Lilly & Co.,NYSE,COMMON,Health Care,800000000000,1952-01-01,,active
 LMT,Lockheed Martin,NYSE,COMMON,Industrials,110000000000,1977-01-01,,active
 LNT,,,COMMON,Utilities,0.0,2016-07-01,,active
@@ -324,6 +335,7 @@ MPWR,,,COMMON,Information Technology,0.0,2021-02-12,,active
 MRK,Merck & Co.,NYSE,COMMON,Health Care,250000000000,1946-01-01,,active
 MRNA,,,COMMON,Health Care,0.0,2021-07-21,,active
 MRSH,,,COMMON,Financials,0.0,2026-01-14,,active
+MRVL,,,COMMON,Unknown,0.0,2026-06-22,,active
 MS,Morgan Stanley,NYSE,COMMON,Financials,180000000000,1986-03-21,,active
 MSCI,,,COMMON,Financials,0.0,2018-04-04,,active
 MSFT,Microsoft Corp.,NASDAQ,COMMON,Information Technology,3100000000000,1986-03-13,,active
@@ -396,6 +408,7 @@ PYPL,PayPal Holdings,NASDAQ,COMMON,Financials,75000000000,2015-07-06,,active
 Q,,,COMMON,Information Technology,0.0,2000-07-06,,active
 QCOM,Qualcomm Inc.,NASDAQ,COMMON,Information Technology,180000000000,1991-12-13,,active
 RCL,,,COMMON,Consumer Discretionary,0.0,2014-12-05,,active
+RDDT,,,COMMON,Unknown,0.0,2026-08-18,,active
 REG,,,COMMON,Real Estate,0.0,2017-03-02,,active
 REGN,,,COMMON,Health Care,0.0,2013-05-01,,active
 RF,,,COMMON,Financials,0.0,1998-08-28,,active
@@ -475,12 +488,15 @@ UPS,United Parcel Service,NYSE,COMMON,Industrials,90000000000,1999-11-10,,active
 URI,,,COMMON,Industrials,0.0,2014-09-22,,active
 USB,,,COMMON,Financials,0.0,1996-01-02,,active
 V,Visa Inc.,NYSE,COMMON,Financials,550000000000,2008-03-19,,active
+VEEV,,,COMMON,Unknown,0.0,2026-05-07,,active
 VICI,,,COMMON,Real Estate,0.0,2022-06-08,,active
 VLO,,,COMMON,Energy,0.0,2004-04-29,,active
 VLTO,,,COMMON,Industrials,0.0,2023-10-02,,active
 VMC,,,COMMON,Materials,0.0,1999-07-01,,active
+VMRK,,,COMMON,Unknown,0.0,2026-08-18,,active
 VRSK,,,COMMON,Industrials,0.0,2015-10-08,,active
 VRSN,,,COMMON,Information Technology,0.0,2006-02-01,,active
+VRT,,,COMMON,Unknown,0.0,2026-03-23,,active
 VRTX,Vertex Pharmaceuticals,NASDAQ,COMMON,Health Care,120000000000,1991-07-24,,active
 VST,,,COMMON,Utilities,0.0,2024-05-08,,active
 VTR,,,COMMON,Real Estate,0.0,2009-03-04,,active
