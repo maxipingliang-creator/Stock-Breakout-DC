@@ -228,14 +228,81 @@ class SignalRepository:
 
     def set_lifecycle(self, signal_id: int, state: str, as_of_date: str,
                      price: float | None = None, note: str = "",
+                     policy_r: float | None = None, policy_reason: str | None = None,
+                     policy_bars: int | None = None,
                      commit: bool = True) -> None:
         self.db.execute(
-            """INSERT INTO trade_lifecycle (signal_id,state,as_of_date,price,note)
-               VALUES (?,?,?,?,?)
+            """INSERT INTO trade_lifecycle
+                   (signal_id,state,as_of_date,price,note,policy_r,policy_reason,policy_bars)
+               VALUES (?,?,?,?,?,?,?,?)
                ON CONFLICT(signal_id) DO UPDATE SET
                    state=excluded.state, as_of_date=excluded.as_of_date,
-                   price=excluded.price, note=excluded.note""",
-            (signal_id, state, as_of_date, price, note),
+                   price=excluded.price, note=excluded.note,
+                   policy_r=excluded.policy_r, policy_reason=excluded.policy_reason,
+                   policy_bars=excluded.policy_bars""",
+            (signal_id, state, as_of_date, price, note,
+             policy_r, policy_reason, policy_bars),
+        )
+        if commit:
+            self.db.commit()
+
+    def policy_record(self, strategy: str, window: int | None = None) -> dict | None:
+        """Realised record over a strategy's **resolved** signals: count, win% and mean R.
+
+        Reads the resolved outcome the tracking layer stores on ``trade_lifecycle``, so it
+        measures the result the engine's own rules produced rather than a fixed-horizon
+        mark. Unclamped, unlike :meth:`forward_record`: a mark-to-horizon figure is
+        open-ended and needs bounding, whereas these values are already bounded by the
+        rules that produced them, so clamping a second time would hide the tail.
+
+        Only resolved rows count — an unresolved signal has no realised R, and scoring it
+        as zero would pull the mean toward the middle exactly while a run is young.
+        ``window`` averages the most recent N resolved rows (by signal date), so the
+        figure tracks the current period instead of carrying every past row forever."""
+        inner = (
+            "SELECT l.policy_r AS r FROM trade_lifecycle l "
+            "JOIN signals s ON s.signal_id = l.signal_id "
+            "WHERE s.strategy = ? AND l.policy_r IS NOT NULL"
+        )
+        tail = " ORDER BY s.signal_date DESC, l.signal_id DESC LIMIT ?" if window else ""
+        sql = ("SELECT COUNT(*) n, AVG(CASE WHEN q.r > 0 THEN 1.0 ELSE 0.0 END) win, "
+               f"AVG(q.r) avg_r FROM ({inner}{tail}) q")
+        args = [strategy] + ([int(window)] if window else [])
+        row = self.db.query_one(sql, tuple(args))
+        if not row or not row.get("n"):
+            return None
+        return {"n": int(row["n"]), "win_pct": round((row["win"] or 0.0) * 100, 0),
+                "avg_r": round(row["avg_r"] or 0.0, 3)}
+
+    def policy_tracked_signal_ids(self) -> set[int]:
+        """signal_ids whose resolution has already been *attempted*. Distinct from
+        :meth:`tracked_signal_ids` so that adding these columns to an existing book does
+        not look 'already tracked': a signal recorded before they existed has a lifecycle
+        row but no resolution, and must be visited once to get one.
+
+        Keys off ``policy_reason``, not ``policy_r``, because an attempt can legitimately
+        end unresolved (missing data, or a signal still live in the bars we hold). Those
+        store a reason with a NULL ``policy_r``; keying off ``policy_r`` would retry them
+        on every run forever."""
+        return {int(r["signal_id"]) for r in self.db.query(
+            "SELECT signal_id FROM trade_lifecycle WHERE policy_reason IS NOT NULL")}
+
+    def get_gate_state(self, strategy: str) -> dict | None:
+        """The last stored decision for a strategy, or None if there has never been one."""
+        return self.db.query_one(
+            "SELECT strategy, shut, as_of, avg_r, n, reason FROM gate_state "
+            "WHERE strategy = ?", (strategy,))
+
+    def set_gate_state(self, strategy: str, shut: bool, as_of: str,
+                       avg_r: float | None, n: int, reason: str,
+                       commit: bool = True) -> None:
+        self.db.execute(
+            """INSERT INTO gate_state (strategy,shut,as_of,avg_r,n,reason)
+               VALUES (?,?,?,?,?,?)
+               ON CONFLICT(strategy) DO UPDATE SET
+                   shut=excluded.shut, as_of=excluded.as_of, avg_r=excluded.avg_r,
+                   n=excluded.n, reason=excluded.reason""",
+            (strategy, 1 if shut else 0, as_of, avg_r, int(n), reason),
         )
         if commit:
             self.db.commit()
@@ -337,8 +404,9 @@ class SignalRepository:
         the realized ``(lifecycle_price − entry) / (entry − stop)``, clamped to
         ``[r_floor, r_cap]``. Also returns how many signals are still ``open`` — because the
         resolved set is **censored** (slow winners resolve later than fast stops), so a low
-        early win% is partly maturation, not necessarily edge decay. The brake still keys off
-        the (less-censored) ``forward_record``; this is a decision-support readout only.
+        early win% is partly maturation, not necessarily edge decay. This is a
+        decision-support readout only — since 2026-10 the engine keys off
+        :meth:`policy_record`, not this and not ``forward_record``.
         Returns None when nothing has resolved for the strategy."""
         rexpr = "(l.price - s.entry_price) / (s.entry_price - s.stop_price)"
         clamp = f"CASE WHEN {rexpr} < ? THEN ? WHEN {rexpr} > ? THEN ? ELSE {rexpr} END"

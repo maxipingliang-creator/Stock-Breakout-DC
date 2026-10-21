@@ -42,6 +42,11 @@ class Database:
         have = {r["name"] for r in self.query("PRAGMA table_info(signals)")}
         if "score_factors" not in have:
             self.conn.execute("ALTER TABLE signals ADD COLUMN score_factors TEXT")
+        life = {r["name"] for r in self.query("PRAGMA table_info(trade_lifecycle)")}
+        for col, decl in (("policy_r", "REAL"), ("policy_reason", "TEXT"),
+                          ("policy_bars", "INTEGER")):
+            if col not in life:
+                self.conn.execute(f"ALTER TABLE trade_lifecycle ADD COLUMN {col} {decl}")
 
     # -- core helpers -------------------------------------------------------
     def execute(self, sql: str, params: Any = ()) -> sqlite3.Cursor:
@@ -134,6 +139,10 @@ class PostgresDatabase:
                 if stmt.strip():
                     cur.execute(stmt)
             cur.execute("ALTER TABLE signals ADD COLUMN IF NOT EXISTS score_factors TEXT")
+            for col, decl in (("policy_r", "REAL"), ("policy_reason", "TEXT"),
+                              ("policy_bars", "INTEGER")):
+                cur.execute(
+                    f"ALTER TABLE trade_lifecycle ADD COLUMN IF NOT EXISTS {col} {decl}")
         self.conn.commit()
 
     def execute(self, sql: str, params: Any = ()):

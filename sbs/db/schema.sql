@@ -127,8 +127,27 @@ CREATE TABLE IF NOT EXISTS trade_lifecycle (
     as_of_date  TEXT,
     price       REAL,
     note        TEXT,
+    -- Resolved outcome written by the private engine's tracking layer. `state`/`price`
+    -- above record the simpler first-touch lifecycle and are unchanged; these three carry
+    -- the resolved result under the engine's own configured rules.
+    policy_r      REAL,          -- realised R-multiple (NULL while unresolved)
+    policy_reason TEXT,          -- which rule closed it
+    policy_bars   INTEGER,       -- bars held
     PRIMARY KEY (signal_id),
     FOREIGN KEY (signal_id) REFERENCES signals(signal_id) ON DELETE CASCADE
+);
+
+-- Per-strategy decision latch written by the private engine. One row per strategy,
+-- holding the last decision so that a decision may depend on its predecessor rather than
+-- on the current reading alone — which is not derivable from the stored record. Carries
+-- no market data.
+CREATE TABLE IF NOT EXISTS gate_state (
+    strategy  TEXT PRIMARY KEY,
+    shut      INTEGER NOT NULL,
+    as_of     TEXT,
+    avg_r     REAL,
+    n         INTEGER,
+    reason    TEXT
 );
 
 -- ---------------------------------------------------------------------------
