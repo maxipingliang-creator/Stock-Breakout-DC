@@ -66,6 +66,11 @@ execution:
   # recent tracked signals. 0 / unset = every signal since inception. Rationale in the
   # private docs.
   brake_window: 50
+  # Only count a tracked signal once this many calendar days have passed since it fired.
+  # Rows settle at different speeds and the slow ones are not a random sample, so an
+  # unaged read is systematically low; 60 days was calibrated to leave a negligible
+  # residual. Rationale in the private docs.
+  gate_maturity_days: 60
 
 regime:
   benchmark: "SPY"

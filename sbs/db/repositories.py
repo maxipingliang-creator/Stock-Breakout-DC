@@ -246,33 +246,54 @@ class SignalRepository:
         if commit:
             self.db.commit()
 
-    def policy_record(self, strategy: str, window: int | None = None) -> dict | None:
+    def policy_record(self, strategy: str, window: int | None = None, *,
+                      as_of: str | None = None, min_maturity_days: int = 0,
+                      r_floor: float = -2.0, r_cap: float = 2.0) -> dict | None:
         """Realised record over a strategy's **resolved** signals: count, win% and mean R.
 
         Reads the resolved outcome the tracking layer stores on ``trade_lifecycle``, so it
         measures the result the engine's own rules produced rather than a fixed-horizon
-        mark. Unclamped, unlike :meth:`forward_record`: a mark-to-horizon figure is
-        open-ended and needs bounding, whereas these values are already bounded by the
-        rules that produced them, so clamping a second time would hide the tail.
+        mark.
 
-        Only resolved rows count — an unresolved signal has no realised R, and scoring it
-        as zero would pull the mean toward the middle exactly while a run is young.
-        ``window`` averages the most recent N resolved rows (by signal date), so the
-        figure tracks the current period instead of carrying every past row forever."""
+        **``min_maturity_days`` is not optional in spirit.** Rows resolve at different
+        speeds, and the slow ones are not a random sample: a position that goes against
+        you closes quickly, one that works runs on. So "the most recent resolved rows" is
+        the *fast* half of a young cohort and reads far below the truth. Calibrated on
+        fully-resolved cohorts (2026-06..08, n=196) the understatement was −0.46R at ~7
+        days of maturity, −0.15R at 30 days, and −0.014R at 60 — which is why the caller
+        passes 60. Requiring maturity costs lag and removes the bias; not requiring it
+        produced a reading of −0.85R against a true −0.09R, and suspended trading on it.
+
+        Clamped to ``[r_floor, r_cap]``. An earlier revision dropped the clamp, reasoning
+        that a simulated stop already bounds the result. It does not: a gap through the
+        stop fills at the open, arbitrarily far away, and a row whose stop sits a cent
+        below its entry turns an ordinary move into hundreds of R (one such row read
+        −452R and moved a whole strategy's mean by 7R).
+
+        Only resolved rows count — an unresolved row has no realised R, and scoring it as
+        zero would pull the mean toward the middle exactly while a run is young.
+        ``window`` averages the most recent N qualifying rows (by signal date)."""
+        clamp = "CASE WHEN q.r < ? THEN ? WHEN q.r > ? THEN ? ELSE q.r END"
         inner = (
             "SELECT l.policy_r AS r FROM trade_lifecycle l "
             "JOIN signals s ON s.signal_id = l.signal_id "
             "WHERE s.strategy = ? AND l.policy_r IS NOT NULL"
         )
+        args: list = [r_floor, r_floor, r_cap, r_cap, strategy]   # clamp binds first
+        if as_of and min_maturity_days > 0:
+            inner += " AND julianday(?) - julianday(s.signal_date) >= ?"
+            args += [as_of, int(min_maturity_days)]
         tail = " ORDER BY s.signal_date DESC, l.signal_id DESC LIMIT ?" if window else ""
-        sql = ("SELECT COUNT(*) n, AVG(CASE WHEN q.r > 0 THEN 1.0 ELSE 0.0 END) win, "
-               f"AVG(q.r) avg_r FROM ({inner}{tail}) q")
-        args = [strategy] + ([int(window)] if window else [])
+        if window:
+            args.append(int(window))
+        sql = (f"SELECT COUNT(*) n, AVG(CASE WHEN q.r > 0 THEN 1.0 ELSE 0.0 END) win, "
+               f"AVG({clamp}) avg_r FROM ({inner}{tail}) q")
         row = self.db.query_one(sql, tuple(args))
         if not row or not row.get("n"):
             return None
         return {"n": int(row["n"]), "win_pct": round((row["win"] or 0.0) * 100, 0),
-                "avg_r": round(row["avg_r"] or 0.0, 3)}
+                "avg_r": round(row["avg_r"] or 0.0, 3),
+                "maturity_days": int(min_maturity_days)}
 
     def policy_tracked_signal_ids(self) -> set[int]:
         """signal_ids whose resolution has already been *attempted*. Distinct from
